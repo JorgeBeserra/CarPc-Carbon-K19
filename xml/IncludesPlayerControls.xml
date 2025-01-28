@@ -4,27 +4,8 @@
 	<include>Window_OpenClose_Animation_Zoom</include>
 	<include>CommonTopBar</include>
 	<include>CommonBottomBar</include>
-		<control type="button">
-			<description>Home Button</description>
-			<posx>10</posx>
-			<posy>2</posy>
-			<width>100</width>
-			<height>100</height>
-			<font></font>
-			<texturenofocus colordiffuse="icons">icon_home.png</texturenofocus>
-			<texturefocus colordiffuse="blue">icon_home.png</texturefocus>
-			<onclick>Dialog.Close(all)</onclick>
-			<onclick>ActivateWindow(Home)</onclick>
-		</control>
-		<control type="image">
-				<posx>110</posx>
-				<posy>15</posy>
-				<width>1</width>
-				<height>70</height>
-				<texture>linie_albastra.png</texture>
-		</control>
 		<control type="group">
-			<posx>-120</posx>
+			<posx>-260</posx>
 			<posy>40</posy>
 			<width>ScreenWidth</width>
 			<include>16x9_xPos_Relocation</include>
@@ -93,7 +74,7 @@
 			</control>
 		</control>
 		<control type="group">
-			<posx>100r</posx>
+			<posx>270r</posx>
 			<posy>0</posy>
 			<control type="image">
 				<posx>0</posx>
@@ -104,8 +85,28 @@
 				<colordiffuse></colordiffuse>
 			</control>
 			<control type="button">
+				<description>Home Button</description>
+				<posx>5</posx>
+				<posy>2</posy>
+				<width>100</width>
+				<height>100</height>
+				<font></font>
+				<texturenofocus colordiffuse="icons">icon_home.png</texturenofocus>
+				<texturefocus colordiffuse="blue">icon_home.png</texturefocus>
+				<onclick>Dialog.Close(all)</onclick>
+				<onclick>ActivateWindow(Home)</onclick>
+			</control>
+			<control type="image">
+				<posx>130</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>70</height>
+				<texture>linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="button">
 				<description>Close Button</description>
-				<posx>4</posx>
+				<posx>160</posx>
 				<posy>0</posy>
 				<width>100</width>
 				<height>100</height>
@@ -115,7 +116,6 @@
 				<texturenofocus colordiffuse="icons">icon_dialog_close.png</texturenofocus>
 			</control>
 		</control>
-	
 		<control type="group">
 			<visible>Window.IsVisible(MusicOSD)</visible>
 			<posx>0</posx>
@@ -366,7 +366,7 @@
 			</control>
 		</control>
 		<include>BottomMenu</include>
-		<include>VolumeBottom</include>
+		<include>VolumeRightOSD</include>
 		<include content="PopupMenu">
 			<param name="panel-posy">180</param>
 			<param name="panel-height">600</param>

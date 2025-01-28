@@ -833,6 +833,138 @@
             </control>
         </control>
     </include>
+	<include name="VolumeRight">
+    	<control type="group" id="5570">
+            <include>Window_OpenClose_Animation_Slide_Up</include>
+            <posx>1135</posx>
+            <posy>105r</posy>
+            <control type="button" id="5572">
+                <description>KB_minus</description>
+				<onup>Control.SetFocus(4241)</onup>
+				<onright>Control.SetFocus(5571)</onright>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>110</width>
+                <height>120</height>
+				<texturenofocus border="6"></texturenofocus>
+                <texturefocus>list_focus.png</texturefocus>
+                <onclick>VolumeDown</onclick>
+            </control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>80</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+                <description>Volume down</description>
+                <posx>20</posx>
+                <posy>5</posy>
+                <width>90</width>
+                <height>100</height>
+                <texture colordiffuse="icons">osd_volume2.png</texture>
+                <bordersize>12</bordersize>
+            </control>
+            <control type="button" id="5571">
+                <description>Volum Up</description>
+				<onup>Control.SetFocus(4241)</onup>
+				<onleft>Control.SetFocus(5572)</onleft>
+				<onright>Control.SetFocus(4273)</onright>
+                <posx>110</posx>
+                <posy>0</posy>
+                <width>110</width>
+                <height>120</height>
+                <texturenofocus border="6"></texturenofocus>
+                <texturefocus >list_focus.png</texturefocus>
+                <onclick>VolumeUp</onclick>
+            </control>
+			<control type="image">
+				<posx>110</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>80</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+                <description>Volume up</description>
+                <posx>120</posx>
+                <posy>5</posy>
+                <width>90</width>
+                <height>100</height>
+                <texture colordiffuse="icons">osd_volume.png</texture>
+                <bordersize>12</bordersize>
+            </control>
+        </control>
+    </include>
+	<include name="VolumeRightOSD">
+    	<control type="group" id="5570">
+            <include>Window_OpenClose_Animation_Slide_Up</include>
+            <posx>1250</posx>
+            <posy>105r</posy>
+            <control type="button" id="5572">
+                <description>KB_minus</description>
+				<onup>Control.SetFocus(4241)</onup>
+				<onright>Control.SetFocus(5571)</onright>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>110</width>
+                <height>120</height>
+				<texturenofocus border="6"></texturenofocus>
+                <texturefocus>list_focus.png</texturefocus>
+                <onclick>VolumeDown</onclick>
+            </control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>80</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+                <description>Volume down</description>
+                <posx>20</posx>
+                <posy>5</posy>
+                <width>90</width>
+                <height>100</height>
+                <texture colordiffuse="icons">osd_volume2.png</texture>
+                <bordersize>12</bordersize>
+            </control>
+            <control type="button" id="5571">
+                <description>Volum Up</description>
+				<onup>Control.SetFocus(4241)</onup>
+				<onleft>Control.SetFocus(5572)</onleft>
+				<onright>Control.SetFocus(4273)</onright>
+                <posx>110</posx>
+                <posy>0</posy>
+                <width>110</width>
+                <height>120</height>
+                <texturenofocus border="6"></texturenofocus>
+                <texturefocus >list_focus.png</texturefocus>
+                <onclick>VolumeUp</onclick>
+            </control>
+			<control type="image">
+				<posx>110</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>80</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+                <description>Volume up</description>
+                <posx>120</posx>
+                <posy>5</posy>
+                <width>90</width>
+                <height>100</height>
+                <texture colordiffuse="icons">osd_volume.png</texture>
+                <bordersize>12</bordersize>
+            </control>
+        </control>
+    </include>
 	<include name="FullscreenButton">
 		<control type="group" id="4272">
 		<posx>220</posx>

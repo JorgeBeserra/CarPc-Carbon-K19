@@ -191,7 +191,7 @@
 	<include>DayNight</include>
 	
 		<control type="group" id="9030">
-				<include>VolumeBottom</include>
+				<include>VolumeRight</include>
 				<include>FullscreenButton</include>
 				<include>PlayerControlsAll</include>
 		</control>	
