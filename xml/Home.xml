@@ -172,7 +172,7 @@
 		
 		<!--##################################################################################-->
 		<control type="togglebutton" id="131">
-			<posx>50</posx>
+			<posx>1550</posx>
 			<posy>100</posy>
 			<width>90</width>
 			<height>90</height>
@@ -210,7 +210,7 @@
 				</item>
 				<item>
 					<label>1036</label>
-					<onclick>ActivateWindow(Favourites)</onclick>
+					<onclick>ActivateWindow(FavouritesBrowser)</onclick>
 					<icon>icon_button_favourites.png</icon>
 					<visible>!Skin.HasSetting(HideHomeButtonFavourites)</visible>
 				</item>

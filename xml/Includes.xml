@@ -2137,7 +2137,7 @@
 		</item>
 		<item>
 			<label>1036</label>
-			<onclick>ActivateWindow(Favourites)</onclick>
+			<onclick>ActivateWindow(FavouritesBrowser)</onclick>
 			<icon>icon_menu_favourites.png</icon>
 			<thumb></thumb>
 			<visible>!Skin.HasSetting(HideHomeButtonFavourites)</visible>

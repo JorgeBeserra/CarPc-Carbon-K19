@@ -8,6 +8,7 @@
 		<res width="1706" height="960" aspect="16:9" default="true" folder="xml"/>
 	</extension>
 	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
 		<summary lang="af_ZA">Oortreksel vir raakskerm toestelle</summary>
 		<summary lang="am_ET">ለ ተችስክሪን አካሎች ቆዳ</summary>
 		<summary lang="bg_BG">Облик за устройства с екран чувствителен на допир</summary>
