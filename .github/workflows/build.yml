@@ -1,0 +1,34 @@
+name: Criar Release e Atualização
+
+on:
+  push:
+    tags:
+      - 'v*'  # Gera um release quando um tag começando com "v" for feita
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Clonar repositório
+        uses: actions/checkout@v4
+
+      - name: 📦 Criar update.zip
+        run: |
+          zip -r update.zip scripts/
+
+      - name: 🚀 Criar Release no GitHub
+        uses: ghcr.io/github-actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: 'Release ${GITHUB_REF}'
+          body: 'Esta versão contém a atualização do script.'
+          draft: false
+          prerelease: false
+
+      - name: 🏷️ Adicionar update.zip ao Release
+        uses: ghcr.io/github-actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./update.zip
+          asset_name: update.zip
+          asset_content_type: application/zip

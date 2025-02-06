@@ -8,7 +8,7 @@ import shutil
 import xbmcvfs  # Importar a biblioteca correta
 
 # Configuração do repositório
-GITHUB_REPO = "https://github.com/SeuUsuario/SeuRepositorio/releases/latest/download/update.zip"
+GITHUB_REPO = "https://github.com/JorgeBeserra/CarPc-Carbon-K19/releases/latest/download/update.zip"
 ADDON_PATH = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('path'))
 
 def download_update():
