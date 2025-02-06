@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="skin.CarPc-Carbon" version="2.0.7" name="CarPc-Carbon" provider-name="idorel77">
+<addon id="skin.CarPc-Carbon" version="2.0.8" name="CarPc-Carbon" provider-name="idorel77">
 	<requires>
 		<import addon="xbmc.gui" version="5.17.0"/>
+		<import addon="xbmc.python" version="3.0.0"/>
 	</requires>
 	<extension point="xbmc.gui.skin" debugging="false">
 		<res width="1706" height="960" aspect="4:3" folder="xml"/>
 		<res width="1706" height="960" aspect="16:9"  default="true" folder="xml"/>
 	</extension>
+	<extension point="xbmc.service" library="default.py" />		
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="af_ZA">Oortreksel vir raakskerm toestelle</summary>
