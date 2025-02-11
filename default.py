@@ -3,6 +3,7 @@ import xbmcaddon
 import xbmcgui
 import os
 import update
+import serial
 
 # Exibir notificação ao iniciar
 xbmcgui.Dialog().notification("Atualizador", "Verificando atualizações...", xbmcgui.NOTIFICATION_INFO, 3000)
