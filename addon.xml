@@ -9,6 +9,7 @@
 		<res width="1706" height="960" aspect="16:9"  default="true" folder="xml"/>
 	</extension>
 	<extension point="xbmc.python.module" library="pyserial" />
+	<extension point="xbmc.service" library="service.py" start="startup"/>
 	<extension point="xbmc.python.script" library="default.py">
                 <provides>executable</provides>
     </extension>	
