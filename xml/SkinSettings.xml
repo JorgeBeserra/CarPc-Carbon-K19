@@ -140,6 +140,20 @@
 					<textoffsetx>20</textoffsetx>
 					<onfocus>Skin.SetString(SkinSettings,8)</onfocus>
 				</control>
+				<control type="button" id="99">
+					<width>390</width>
+					<height>80</height>
+					<onright>800</onright>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus></texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Car</label>
+					<textoffsetx>20</textoffsetx>
+					<onfocus>Skin.SetString(SkinSettings,9)</onfocus>
+				</control>
 			</control>
 			<include content="SkinSettingsContent" condition="String.IsEqual(Skin.AspectRatio,16:9)">
 				<param name="panel-width">1316</param>
@@ -728,7 +742,7 @@
 						<textoffsetx>20</textoffsetx>
 					</control>
 		    </control>
-			    <control type="grouplist" id="800">
+			<control type="grouplist" id="800">
 			    <description>control area</description>
 			    <posx>390</posx>
 			    <posy>140</posy>
@@ -769,7 +783,190 @@
 					<enable>Skin.HasSetting(Use_Startup_Playlist)</enable>
 					<visible>Skin.HasSetting(Use_Startup_Playlist)</visible>
 				</control>
-	    </control>	
+	    	</control>	
+
+			<control type="grouplist" id="900">
+				<description>control area</description>
+				<posx>390</posx>
+				<posy>140</posy>
+				<width>$PARAM[panel-width]</width>
+				<height>640</height>
+				<pagecontrol>60</pagecontrol>
+				<itemgap>-1</itemgap>
+				<onup>200</onup>
+				<ondown>9002</ondown>
+				<onleft>9</onleft>
+				<onright>60</onright>
+				<visible>Skin.String(SkinSettings,9)</visible>	
+				<control type="radiobutton" id="901">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Serial Port</label>
+					<onclick>Skin.ToggleSetting(UseCustomSerialPort)</onclick>
+					<selected>Skin.HasSetting(UseCustomSerialPort)</selected>
+				</control>
+				<control type="button" id="902">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button 1. Label is:</label>
+					<label2>$INFO[Skin.String(serial_port)]</label2>
+					<onclick>Skin.SetString(serial_port)</onclick>
+					<selected>Skin.HasSetting(serial_port)</selected>
+					<visible>Skin.HasSetting(UseCustomSerialPort)</visible>
+				</control>
+				<control type="radiobutton" id="903">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Baud Rate</label>
+					<onclick>Skin.ToggleSetting(UseCustomBaudRate)</onclick>
+					<selected>Skin.HasSetting(UseCustomBaudRate)</selected>
+				</control>
+				<control type="button" id="904">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button2. Label is:</label>
+					<label2>$INFO[Skin.String(baud_rate)]</label2>
+					<onclick>Skin.SetString(baud_rate)</onclick>
+					<selected>Skin.HasSetting(baud_rate)</selected>
+					<visible>Skin.HasSetting(UseCustomBaudRate)</visible>
+				</control>
+				<control type="radiobutton" id="905">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Label Home Button3 (Radio)</label>
+					<onclick>Skin.ToggleSetting(UseCustomLabelButton3)</onclick>
+					<selected>Skin.HasSetting(UseCustomLabelButton3)</selected>
+				</control>
+				<control type="button" id="906">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button3. Label is:</label>
+					<label2>$INFO[Skin.String(CustomLabelButton3)]</label2>
+					<onclick>Skin.SetString(CustomLabelButton3)</onclick>
+					<selected>Skin.HasSetting(CustomLabelButton3)</selected>
+					<visible>Skin.HasSetting(UseCustomLabelButton3)</visible>
+				</control>
+				<control type="radiobutton" id="907">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Label Home Button4 (Music)</label>
+					<onclick>Skin.ToggleSetting(UseCustomLabelButton4)</onclick>
+					<selected>Skin.HasSetting(UseCustomLabelButton4)</selected>
+				</control>
+				<control type="button" id="908">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button4. Label is:</label>
+					<label2>$INFO[Skin.String(CustomLabelButton4)]</label2>
+					<onclick>Skin.SetString(CustomLabelButton4)</onclick>
+					<selected>Skin.HasSetting(CustomLabelButton4)</selected>
+					<visible>Skin.HasSetting(UseCustomLabelButton4)</visible>
+				</control>
+				<control type="radiobutton" id="909">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Label Home Button5 (Programs)</label>
+					<onclick>Skin.ToggleSetting(UseCustomLabelButton5)</onclick>
+					<selected>Skin.HasSetting(UseCustomLabelButton5)</selected>
+				</control>
+				<control type="button" id="910">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button5. Label is:</label>
+					<label2>$INFO[Skin.String(CustomLabelButton5)]</label2>
+					<onclick>Skin.SetString(CustomLabelButton5)</onclick>
+					<selected>Skin.HasSetting(CustomLabelButton5)</selected>
+					<visible>Skin.HasSetting(UseCustomLabelButton5)</visible>
+				</control>
+				<control type="radiobutton" id="911">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>		
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">bara_jos.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Use Custom Label Home Button6 (Shutdown)</label>
+					<onclick>Skin.ToggleSetting(UseCustomLabelButton6)</onclick>
+					<selected>Skin.HasSetting(UseCustomLabelButton6)</selected>
+				</control>
+				<control type="button" id="912">
+					<width>$PARAM[panel-width]</width>
+					<height>80</height>
+					<aligny>center</aligny>
+					<font>font24_title</font>
+					<textcolor>white</textcolor>
+					<texturefocus>list_focus.png</texturefocus>
+					<texturenofocus border="40,0,40,5">list_nofocus.png</texturenofocus>
+					<pulseonselect>false</pulseonselect>
+					<label>Click to set label for button6. Label is:</label>
+					<label2>$INFO[Skin.String(CustomLabelButton6)]</label2>
+					<onclick>Skin.SetString(CustomLabelButton6)</onclick>
+					<selected>Skin.HasSetting(CustomLabelButton6)</selected>
+					<visible>Skin.HasSetting(UseCustomLabelButton6)</visible>
+				</control>
+			</control>
 		<include>Header</include>
 		<include>CommonNowPlaying</include>
 		<include>Footer</include>
