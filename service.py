@@ -1,9 +1,11 @@
 import sys
 import os
+import platform
 import xbmc
 import xbmcaddon
 import xbmcgui
 from xbmc import Monitor
+import re
 
 # Adiciona o diretório do addon e a pasta lib ao sys.path
 addon_path = xbmcaddon.Addon().getAddonInfo('path')
@@ -28,7 +30,16 @@ baud_rate_setting = addon.getSetting("baud_rate")
 xbmc.log(f"Serial Port: {str(serial_port_setting)}", xbmc.LOGINFO)
 xbmc.log(f"Baud Rate: {str(baud_rate_setting)}", xbmc.LOGINFO)
 
-SERIAL_PORT = "COM3"
+# Detecta o sistema operacional
+if platform.system() == "Windows":
+    SERIAL_PORT_SYSTEM = "COM3"  # Ajuste conforme necessário
+elif platform.system() == "Linux":
+    SERIAL_PORT_SYSTEM = "/dev/ttyUSB0"  # Ajuste conforme necessário
+else:
+    xbmc.log("Sistema operacional não suportado!", xbmc.LOGERROR)
+    sys.exit(1)  # Sai do programa se o SO não for suportado
+
+SERIAL_PORT = serial_port_setting if serial_port_setting else SERIAL_PORT_SYSTEM
 BAUD_RATE = int(baud_rate_setting) if baud_rate_setting.isdigit() else 115200
 
 # Variável global para armazenar o status das portas
@@ -36,21 +47,39 @@ door_status = {
     "driver": "Fechada",
     "passenger": "Fechada",
     "rear_left": "Fechada",
-    "rear_right": "Fechada"
+    "rear_right": "Fechada",
+    "trunk": "Fechado"
 }
 
 def parse_can_message(raw_data):
     """Processa os dados brutos do CAN bus e determina o status das portas."""
     global door_status
     try:
+        # Expressão regular para capturar os elementos esperados
+        match = re.search(r"(\d+) - ([0-9A-Fa-f]+) S \d (\d) ((?:[0-9A-Fa-f]{1,2} )+)", raw_data)
+
+        if not match:
+            xbmc.log(f"Formato inválido: {raw_data}", xbmc.LOGWARNING)
+            return
+
+        timestamp, can_id, dlc, data_bytes = match.groups()
+        data_bytes = data_bytes.strip().upper()  # Remove espaços extras e padroniza maiúsculas
+
+        xbmc.log(f"Recebido CAN ID: {can_id} | Dados: {data_bytes}", xbmc.LOGDEBUG)
+        
         parts = raw_data.split(" - ")
         can_id = parts[0]  # O primeiro campo é o endereço da mensagem
 
         if can_id != "0x3b3":
             xbmc.log(f"Ignorando mensagem de ID {can_id}", xbmc.LOGDEBUG)
             return  # Ignora mensagens de outros IDs
+        
+        # Divide os bytes em uma lista
+        data_list = data_bytes.split()
 
-        payload = parts[-1].strip()  # O último campo contém os dados das portas
+        # Pega os dois últimos bytes
+        last_two_bytes = f"{data_list[-2]} {data_list[-1]}"
+        xbmc.log(f"CAN ID: {can_id} | Últimos 2 bytes: {last_two_bytes}", xbmc.LOGDEBUG)
 
         # Mapeamento dos status das portas baseado na mensagem CAN
         status_map = {
@@ -71,32 +100,50 @@ def parse_can_message(raw_data):
             "83 30": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Fechado" },
         }
 
-        # Atualiza o status das portas se a mensagem for reconhecida
-        if payload in status_map:
-            door_status = status_map[payload]
+        # Atualiza o status das portas se a mensagem for reconhecida       
+        if last_two_bytes in status_map:
+            door_status = status_map[last_two_bytes]
             xbmc.log(f"Status das portas atualizado: {door_status}", xbmc.LOGINFO)
+        else:
+            xbmc.log(f"DataBytes desconhecido: {last_two_bytes}", xbmc.LOGWARNING)
 
     except Exception as e:
         xbmc.log(f"Erro ao processar CAN: {str(e)}", xbmc.LOGERROR)
 
+def open_serial():
+    """Tenta abrir a conexão serial e retorna o objeto da serial."""
+    try:
+        ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
+        xbmc.log(f"Serial aberta com sucesso: {SERIAL_PORT}", xbmc.LOGINFO)
+        return ser
+    except serial.SerialException as e:
+        xbmc.log(f"Erro ao abrir a serial: {str(e)}", xbmc.LOGERROR)
+        return None
+
 def listen_serial():
     """Escuta a porta serial e processa os dados do CAN bus."""
+    ser = open_serial()
+
     while not monitor.abortRequested():
+        if ser is None:
+            xbmc.log("Tentando reabrir a serial...", xbmc.LOGWARNING)
+            ser = open_serial()
+            time.sleep(5)  # Espera 5 segundos antes de tentar abrir novamente
+            continue
+
+
         try:
-            ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-            xbmcgui.Dialog().notification("CAN Listener", "Serviço iniciado!", xbmcgui.NOTIFICATION_INFO, 3000)
-            xbmc.log("Conectado à porta serial!", xbmc.LOGINFO)
+            if ser.in_waiting > 0:
+                raw_data = ser.readline().decode('utf-8').strip()
+                parse_can_message(raw_data)
 
-            while not monitor.abortRequested():
-                if ser.in_waiting > 0:
-                    raw_data = ser.readline().decode('utf-8').strip()
-                    parse_can_message(raw_data)
+            time.sleep(0.1)
 
-                time.sleep(0.1)
-
-        except Exception as e:
+        except serial.SerialException as e:
             xbmc.log(f"Erro na Serial: {str(e)}", xbmc.LOGERROR)
             xbmcgui.Dialog().notification("Erro Serial", str(e), xbmcgui.NOTIFICATION_ERROR, 5000)
+            ser.close()
+            ser = None
 
             time.sleep(5)
 
@@ -119,8 +166,8 @@ def update_door_status():
 
 if __name__ == "__main__":
     # Inicia ambos os serviços em threads separadas
-    thread_serial = threading.Thread(target=listen_serial)
-    thread_update = threading.Thread(target=update_door_status)
+    thread_serial = threading.Thread(target=listen_serial, daemon=True)
+    thread_update = threading.Thread(target=update_door_status, daemon=True)
 
     thread_serial.start()
     thread_update.start()
