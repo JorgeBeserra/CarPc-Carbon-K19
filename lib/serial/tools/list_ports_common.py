@@ -8,6 +8,8 @@
 #
 # SPDX-License-Identifier:    BSD-3-Clause
 import re
+import glob
+import os
 
 
 def numsplit(text):
@@ -42,20 +44,26 @@ class ListPortInfo(object):
         self.manufacturer = None
         self.product = None
         self.interface = None
+        # special handling for links
+        if device is not None and os.path.islink(device):
+            self.hwid = 'LINK={}'.format(os.path.realpath(device))
 
     def usb_description(self):
+        """return a short string to name the port based on USB info"""
         if self.interface is not None:
             return '{} - {}'.format(self.product, self.interface)
-        else:
+        elif self.product is not None:
             return self.product
+        else:
+            return self.name
 
     def usb_info(self):
+        """return a string with USB related information about device"""
         return 'USB VID:PID={:04X}:{:04X}{}{}'.format(
-                self.vid,
-                self.pid,
-                ' SER={}'.format(self.serial_number) if self.serial_number is not None else '',
-                ' LOCATION={}'.format(self.location) if self.location is not None else '',
-                )
+            self.vid or 0,
+            self.pid or 0,
+            ' SER={}'.format(self.serial_number) if self.serial_number is not None else '',
+            ' LOCATION={}'.format(self.location) if self.location is not None else '')
 
     def apply_usb_info(self):
         """update description and hwid from USB data"""
@@ -81,6 +89,18 @@ class ListPortInfo(object):
             return self.hwid
         else:
             raise IndexError('{} > 2'.format(index))
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def list_links(devices):
+    """\
+    search all /dev devices and look for symlinks to known ports already
+    listed in devices.
+    """
+    links = []
+    for device in glob.glob('/dev/*'):
+        if os.path.islink(device) and os.path.realpath(device) in devices:
+            links.append(device)
+    return links
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # test

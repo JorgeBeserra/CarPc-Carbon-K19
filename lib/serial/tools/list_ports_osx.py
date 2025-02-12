@@ -22,7 +22,7 @@
 # Also see the 'IORegistryExplorer' for an idea of what we are actually searching
 
 import ctypes
-from ctypes import util
+import ctypes.util
 
 from serial.tools import list_ports_common
 
@@ -227,7 +227,8 @@ def search_for_locationID_in_interfaces(serial_interfaces, locationID):
     return None
 
 
-def comports():
+def comports(include_links=False):
+    # XXX include_links is currently ignored. are links in /dev even supported here?
     # Scan for all iokit serial ports
     services = GetIOServicesByType('IOSerialBSDClient')
     ports = []
@@ -256,4 +257,4 @@ def comports():
 # test
 if __name__ == '__main__':
     for port, desc, hwid in sorted(comports()):
-        print("%s: %s [%s]" % (port, desc, hwid))
+        print("{}: {} [{}]".format(port, desc, hwid))
