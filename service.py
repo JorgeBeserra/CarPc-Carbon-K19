@@ -18,18 +18,15 @@ xbmc.log("PySerial importado com sucesso!", xbmc.LOGINFO)
 import time
 import threading
 
-
 # Configuração do Addon
 addon = xbmcaddon.Addon()
 monitor = Monitor()
 
-
-
 serial_port_setting = addon.getSetting("serial_port")
 baud_rate_setting = addon.getSetting("baud_rate")
 
-xbmc.log(f"Serial Port: {str(serial_port_setting)}", xbmc.LOGERROR)
-xbmc.log(f"Baud Rate: {str(baud_rate_setting)}", xbmc.LOGERROR)
+xbmc.log(f"Serial Port: {str(serial_port_setting)}", xbmc.LOGINFO)
+xbmc.log(f"Baud Rate: {str(baud_rate_setting)}", xbmc.LOGINFO)
 
 SERIAL_PORT = "COM3"
 BAUD_RATE = int(baud_rate_setting) if baud_rate_setting.isdigit() else 115200
