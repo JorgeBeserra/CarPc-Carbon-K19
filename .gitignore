@@ -1,0 +1,10 @@
+*.pyc
+*.pyo
+.DS*
+.pylint_rc
+.pylint_rc
+/.vscode
+/.project
+/.pydevproject
+/.settings
+lib/serial/__pycache__
