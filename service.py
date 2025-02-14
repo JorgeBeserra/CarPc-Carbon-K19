@@ -4,7 +4,10 @@ import platform
 import xbmc
 import xbmcaddon
 import xbmcgui
-from xbmc import Monitor
+from xbmc import Monitor, Player
+
+from lib.ReverseGearManager import ReverseGearManager
+from lib.can_parser import CANParser
 
 # Adiciona o diretório do addon e a pasta lib ao sys.path
 addon_path = xbmcaddon.Addon().getAddonInfo('path')
@@ -32,7 +35,8 @@ door_status = {
     "passenger": "Fechada",
     "rear_left": "Fechada",
     "rear_right": "Fechada",
-    "trunk": "Fechado"
+    "trunk": "Fechado",
+    "reverse_gear": "Não Engatada"
 }
 status_lock = threading.Lock()
 
@@ -51,46 +55,86 @@ def parse_can_message(raw_data):
     global door_status
 
     try:
-        xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
+        # xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
 
-        if "3b3" not in raw_data:
-            return
+        parts = raw_data.split(" - ")
 
-        # Extrai os últimos 2 bytes
-        parts = raw_data.split()
-        if len(parts) < 6:
-            return
+        if len(parts) < 2:
+            return  # Ignora mensagens inválidas
 
-        last_bytes = ' '.join(parts[-2:]).upper()
+        parts = raw_data.split(" - ")
+        timestamp = int(parts[0])  # Exemplo: 227760806
+        frame_parts = parts[1].split(" ")
+        can_id = frame_parts[0]    # Exemplo: 3aa
+        can_data = frame_parts[4:]     # Exemplo: ['0', '22', '20', '0', '0', '0', '0', '0']
 
-        xbmc.log(f"Debug last_bytes: {str(last_bytes)}", xbmc.LOGINFO)
+        # Verifica mensagem de marcha ré (CAN ID 0x3AA)
+        if can_id == "3aa":
+            # Exemplo de dados: 00 22 20 (não engatada) ou 00 22 21 (engatada)
+            gear_byte = can_data[2]  # Último byte
 
-        # Mapeamento dos status das portas baseado na mensagem CAN
-        status_map = {
-            "80 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
-            "80 30": { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
-            "80 10": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
-            "80 20": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
-            "81 20": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Fechado" },
-            "82 10": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Fechado" },
-            "82 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Aberto" },
-            "81 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Aberto" },
-            "80 04": { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Aberto" },
-            "81 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Fechado" },
-            "82 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Fechado" },
-            "83 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
-            "83 14": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
-            "83 24": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
-            "83 30": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Fechado" },
-        }
+            new_status = "Engatada" if gear_byte == "21" else "Não Engatada"
 
-        with status_lock:
-            if last_bytes in status_map:
-                door_status.update(status_map[last_bytes])
-                xbmc.log("Status atualizado", xbmc.LOGINFO)
+            with status_lock:
+                if door_status["reverse_gear"] != new_status:
+                    door_status["reverse_gear"] = new_status
+                    xbmc.log(f"Marcha ré: {new_status}", xbmc.LOGINFO)
+
+        elif can_id == "3b3":
+
+            if len(parts) < 6:
+                return
+
+            last_bytes = ' '.join(can_data[-2:]).upper()
+
+            xbmc.log(f"Debug last_bytes: {str(last_bytes)}", xbmc.LOGINFO)
+
+            # Mapeamento dos status das portas baseado na mensagem CAN
+            status_map = {
+                "80 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
+                "80 30": { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
+                "80 10": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
+                "80 20": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Fechado" },
+                "81 20": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Fechado" },
+                "82 10": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Fechado" },
+                "82 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Aberto" },
+                "81 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Aberto" },
+                "80 04": { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Fechada", "trunk": "Aberto" },
+                "81 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Fechada", "trunk": "Fechado" },
+                "82 0" : { "driver": "Fechada", "passenger": "Fechada", "rear_left": "Fechada", "rear_right": "Aberta", "trunk": "Fechado" },
+                "83 34": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
+                "83 14": { "driver": "Fechada", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
+                "83 24": { "driver": "Aberta", "passenger": "Fechada", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Aberto" },
+                "83 30": { "driver": "Aberta", "passenger": "Aberta", "rear_left": "Aberta", "rear_right": "Aberta", "trunk": "Fechado" },
+            }
+
+            with status_lock:
+                if last_bytes in status_map:
+                    door_status.update(status_map[last_bytes])
+                    xbmc.log("Status atualizado", xbmc.LOGINFO)
 
     except Exception as e:
         xbmc.log(f"Erro ao processar CAN: {str(e)}", xbmc.LOGERROR)
+
+# Adicione esta classe de player
+class ReverseVideoPlayer(xbmc.Player):
+    def __init__(self):
+        super().__init__()
+        self.playing = False
+
+    def play_reverse_video(self):
+        if not self.playing:
+            # Altere para o caminho do seu dispositivo de captura
+            video_url = "v4l2:///dev/video0"  # Exemplo para Linux
+            self.play(video_url)
+            self.playing = True
+            xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
+
+    def stop_reverse_video(self):
+        if self.playing:
+            self.stop()
+            self.playing = False
+            xbmc.executebuiltin("Dialog.Close(all,true)")
 
 def serial_worker():
     """Thread para comunicação serial com otimizações"""
@@ -107,9 +151,9 @@ def serial_worker():
                 raw = ser.readline().decode('utf-8', errors='ignore').strip()
                 if raw:
                     parse_can_message(raw)
-            
+
             monitor.waitForAbort(0.01)
-        
+
         except serial.SerialException as e:
             xbmc.log(f"Erro serial: {str(e)}", xbmc.LOGERROR)
             if ser:
@@ -128,11 +172,19 @@ def ui_worker():
     """Atualização otimizada da interface"""
     window = xbmcgui.Window(10000)  # Acessa a Home do Kodi
     last_state = {}
+    video_player = ReverseVideoPlayer()
 
     while not monitor.abortRequested():
         try:
             with status_lock:
                 current_state = door_status.copy()
+            
+            # Controle do vídeo de marcha ré
+            if current_state.get("reverse_gear") != last_state.get("reverse_gear"):
+                if current_state["reverse_gear"] == "Engatada":
+                    video_player.play_reverse_video()
+                else:
+                    video_player.stop_reverse_video()
 
             if current_state != last_state:
                 # Atualiza as propriedades no Kodi com o status das portas
@@ -141,6 +193,7 @@ def ui_worker():
                 window.setProperty("rear_left_door", door_status["rear_left"])
                 window.setProperty("rear_right_door", door_status["rear_right"])
                 window.setProperty("trunk", door_status["trunk"])
+                window.setProperty("reverse_gear", current_state["reverse_gear"])
                 last_state = current_state.copy()
                 xbmc.log("UI atualizada", xbmc.LOGINFO)
                 # Adicione rótulos descritivos nos logs
