@@ -55,21 +55,28 @@ def parse_can_message(raw_data):
     global door_status
 
     try:
-        # xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
+        xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
 
-        parts = raw_data.split(" - ")
+        parts = raw_data.split(" : ")
 
         if len(parts) < 2:
             return  # Ignora mensagens inválidas
 
-        parts = raw_data.split(" - ")
+        parts = raw_data.split(" : ")
         timestamp = int(parts[0])  # Exemplo: 227760806
         frame_parts = parts[1].split(" ")
         can_id = frame_parts[0]    # Exemplo: 3aa
         can_data = frame_parts[4:]     # Exemplo: ['0', '22', '20', '0', '0', '0', '0', '0']
 
+        # 581 S 0 8 81 0 ff ff ff ff ff ff > CAN ID: Para quando desarma o Alarme
+
+        if can_id == "581":
+            with status_lock:
+                door_status["alarm"] = "Desarmado"
+                xbmc.log("Alarme desarmado (ID 581 detectado)", xbmc.LOGINFO)
+
         # Verifica mensagem de marcha ré (CAN ID 0x3AA)
-        if can_id == "3aa":
+        elif can_id == "3aa":
             # Exemplo de dados: 00 22 20 (não engatada) ou 00 22 21 (engatada)
             gear_byte = can_data[2]  # Último byte
 
@@ -84,6 +91,16 @@ def parse_can_message(raw_data):
 
             if len(parts) < 6:
                 return
+            
+            byte1 = can_data[1]  # Segundo byte
+            if byte1 == "48":
+                with status_lock:
+                    door_status["lighting"] = "Claro"
+                    xbmc.log("Ambiente claro detectado (Byte 1 = 0x48)", xbmc.LOGINFO)
+            elif byte1 == "88":
+                with status_lock:
+                    door_status["lighting"] = "Escuro"
+                    xbmc.log("Ambiente escuro detectado (Byte 1 = 0x88)", xbmc.LOGINFO)
 
             last_bytes = ' '.join(can_data[-2:]).upper()
 
@@ -126,7 +143,15 @@ class ReverseVideoPlayer(xbmc.Player):
         if not self.playing:
             # Altere para o caminho do seu dispositivo de captura
             video_url = "v4l2:///dev/video0"  # Exemplo para Linux
-            self.play(video_url)
+
+            ffmpeg_cmd = (
+                "ffmpeg -f v4l2 -input_format mjpeg -i /dev/video0 "  # Formato de entrada MJPEG
+                "-vf 'format=yuv420p' "
+                "-c:v libx264 -preset ultrafast -tune zerolatency " 
+                "-f mpegts -"
+            )
+
+            self.play(ffmpeg_cmd)
             self.playing = True
             xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
 
