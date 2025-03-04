@@ -1681,7 +1681,7 @@
 		</focusedlayout>
 	</include>	
 	<include name="MenuButtonCommonValues">
-		<height>100</height>
+		<height>130</height>
 		<width>350</width>
 		<textoffsetx>10</textoffsetx>
 		<textwidth>330</textwidth>

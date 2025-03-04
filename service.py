@@ -50,12 +50,39 @@ def get_serial_config():
         'timeout': 0.1
     }
 
+# Função para mostrar a caixa de diálogo
+def mostrar_dialogo_desligamento():
+    xbmc.log("Kodi: Gerando Dialogo", xbmc.LOGINFO)
+    # Criação da caixa de diálogo
+    dialog = xbmcgui.Dialog()
+
+    # Mensagem da caixa de diálogo
+    mensagem = "O desligamento está próximo. Deseja cancelar ou re-agendar?"
+
+    # Opções para os botões
+    botoes = ["Cancelar", "Re-agendar"]
+
+    # Mostrar a caixa de diálogo com opções
+    escolha = dialog.yesno("Desligamento Próximo", mensagem, "", "", botoes[0], botoes[1])
+
+    # Ação baseada na escolha do usuário
+    if escolha == 1:  # Índice do botão "Re-agendar"
+        # Aqui você pode adicionar lógica para re-agendar o desligamento
+        xbmcgui.Dialog().ok("Desligamento", "Desligamento re-agendado.")
+    else:
+        # Cancelar o desligamento
+        xbmcgui.Dialog().ok("Desligamento", "Desligamento cancelado.")
+
 def parse_can_message(raw_data):
     """Processa os dados brutos do CAN bus e determina o status das portas."""
     global door_status
 
     try:
         xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
+
+        if raw_data == "ShutdownForInactivity":
+            xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
+            mostrar_dialogo_desligamento()
 
         parts = raw_data.split(" : ")
 
@@ -193,6 +220,8 @@ def serial_worker():
     if ser and ser.is_open:
         ser.close()
 
+
+
 def ui_worker():
     """Atualização otimizada da interface"""
     window = xbmcgui.Window(10000)  # Acessa a Home do Kodi
@@ -236,6 +265,7 @@ def ui_worker():
 
 if __name__ == "__main__":
     xbmc.log("Serviço iniciado", xbmc.LOGINFO)
+    mostrar_dialogo_desligamento()
 
     # Inicia threads
     serial_thread = threading.Thread(target=serial_worker, daemon=True)
