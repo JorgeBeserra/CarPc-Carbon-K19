@@ -298,6 +298,7 @@
 			</control>
 		</control>
 		<control type="group">
+			<posx>-200</posx>
 			<posy>145r</posy>
 			<control type="grouplist">
 				<posx>0</posx>
