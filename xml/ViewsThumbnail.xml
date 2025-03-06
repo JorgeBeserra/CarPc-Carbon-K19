@@ -5,7 +5,7 @@
 			<posx>130</posx>
 			<posy>100</posy>
 			<width>$PARAM[panel-width]</width>
-			<height>750</height>
+			<height>700</height>
 			<onleft>2</onleft>
 			<onright>60</onright>
 			<onup>50</onup>

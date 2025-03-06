@@ -92,6 +92,18 @@
 			<style>bold</style>
 		</font>
 		<font>
+			<name>font40_title</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>40</size>
+			<style>bold</style>
+		</font>
+		<font>
+			<name>font45_title</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>45</size>
+			<style>bold</style>
+		</font>
+		<font>
 			<name>font50_title</name>
 			<filename>NotoSans-Regular.ttf</filename>
 			<size>50</size>
@@ -113,6 +125,18 @@
 			<name>font80_title</name>
 			<filename>NotoSans-Regular.ttf</filename>
 			<size>80</size>
+			<style>bold</style>
+		</font>
+		<font>
+			<name>font90_title</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>90</size>
+			<style>bold</style>
+		</font>
+		<font>
+			<name>font100_title</name>
+			<filename>NotoSans-Regular.ttf</filename>
+			<size>100</size>
 			<style>bold</style>
 		</font>
 		<font>

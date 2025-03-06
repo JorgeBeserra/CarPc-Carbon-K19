@@ -32,8 +32,8 @@
 			<width>ScreenWidth</width>
 			<align>center</align>
             <aligny>center</aligny>
-			<height>90</height>
-			<font>font80_title</font>
+			<height>140</height>
+			<font>font100_title</font>
 			<textcolor>white</textcolor>
 			<label>$INFO[System.Time]</label>
 		</control>
@@ -45,7 +45,7 @@
 			<posx>0</posx>
 			<posy>0</posy>
 			<width>ScreenWidth</width>
-			<height>100</height>
+			<height>150</height>
 			<texture>bara_sus.png</texture>
 		</control>
 	</include>
@@ -132,12 +132,12 @@
             </control>
         </control>
     </include>
-	<include name="CommonBottomBar">
+	<include name="CommonBottomBar"> <!-- Barra Cinza de Baixo -->
 		<control type="image">
 			<posx>0</posx>
-			<posy>110r</posy>
+			<posy>160r</posy>
 			<width>ScreenWidth</width>
-			<height>110</height>
+			<height>160</height>
 			<texture>bara_jos.png</texture>
 			<animation effect="fade" time="200" condition="Window.Previous(Home)">WindowOpen</animation>
 			<animation effect="fade" time="200" condition="Window.Next(Home)">WindowClose</animation>
@@ -715,8 +715,8 @@
                 <posx>20</posx>
                 <posy>10</posy>
                 <width>100</width>
-                <height>30</height>
-                <font>font24_title</font>
+                <height>60</height>
+                <font>font30_title</font>
                 <textcolor>white</textcolor>
                 <selectedcolor>selected</selectedcolor>
                 <aligny>center</aligny>
@@ -727,8 +727,8 @@
                 <posx>120</posx>
                 <posy>10</posy>
                 <width>600</width>
-                <height>30</height>
-                <font>font24</font>
+                <height>60</height>
+                <font>font30</font>
                 <textcolor>blue</textcolor>
 				<colordiffuse>blue</colordiffuse>
                 <selectedcolor>selected</selectedcolor>
@@ -741,10 +741,10 @@
 			<control type="label">
                 <visible>true</visible>
                 <posx>20</posx>
-                <posy>50</posy>
-                <width>100</width>
-                <height>30</height>
-                <font>font35_title</font>
+                <posy>75</posy>
+                <width>140</width>
+                <height>50</height>
+                <font>font45_title</font>
                 <textcolor>white</textcolor>
                 <selectedcolor>selected</selectedcolor>
                 <aligny>center</aligny>
@@ -752,11 +752,11 @@
             </control>
             <control type="label">
                 <visible>true</visible>
-                <posx>120</posx>
-                <posy>50</posy>
+                <posx>145</posx>
+                <posy>75</posy>
                 <width>600</width>
-                <height>30</height>
-                <font>font30_title</font>
+                <height>50</height>
+                <font>font45_title</font>
                 <textcolor>blue</textcolor>
                 <selectedcolor>selected</selectedcolor>
                 <align>left</align>
@@ -767,104 +767,55 @@
             </control>
         </control>
 	</include> 
-    <include name="VolumeBottom">
-    	<control type="group" id="5570">
-            <include>Window_OpenClose_Animation_Slide_Up</include>
-            <posx>0</posx>
-            <posy>105r</posy>
-            <control type="button" id="5572">
-                <description>KB_minus</description>
-				<onup>Control.SetFocus(4241)</onup>
-				<onright>Control.SetFocus(5571)</onright>
-                <posx>0</posx>
-                <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
-				<texturenofocus border="6"></texturenofocus>
-                <texturefocus>list_focus.png</texturefocus>
-                <onclick>VolumeDown</onclick>
-            </control>
-			<control type="image">
-				<posx>110</posx>
-				<posy>15</posy>
-				<width>1</width>
-				<height>80</height>
-				<texture >linie_albastra_v.png</texture>
-				<colordiffuse></colordiffuse>
-			</control>
-			<control type="image">
-                <description>Volume down</description>
-                <posx>20</posx>
-                <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
-                <texture colordiffuse="icons">osd_volume2.png</texture>
-                <bordersize>12</bordersize>
-            </control>
-            <control type="button" id="5571">
-                <description>Volum Up</description>
-				<onup>Control.SetFocus(4241)</onup>
-				<onleft>Control.SetFocus(5572)</onleft>
-				<onright>Control.SetFocus(4273)</onright>
-                <posx>110</posx>
-                <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
-                <texturenofocus border="6"></texturenofocus>
-                <texturefocus >list_focus.png</texturefocus>
-                <onclick>VolumeUp</onclick>
-            </control>
-			<control type="image">
-				<posx>220</posx>
-				<posy>15</posy>
-				<width>1</width>
-				<height>80</height>
-				<texture >linie_albastra_v.png</texture>
-				<colordiffuse></colordiffuse>
-			</control>
-			<control type="image">
-                <description>Volume up</description>
-                <posx>120</posx>
-                <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
-                <texture colordiffuse="icons">osd_volume.png</texture>
-                <bordersize>12</bordersize>
-            </control>
-        </control>
-    </include>
 	<include name="VolumeRight">
     	<control type="group" id="5570">
             <include>Window_OpenClose_Animation_Slide_Up</include>
-            <posx>1135</posx>
-            <posy>105r</posy>
-            <control type="button" id="5572">
-                <description>KB_minus</description>
-				<onup>Control.SetFocus(4241)</onup>
-				<onright>Control.SetFocus(5571)</onright>
-                <posx>0</posx>
-                <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
-				<texturenofocus border="6"></texturenofocus>
-                <texturefocus>list_focus.png</texturefocus>
-                <onclick>VolumeDown</onclick>
-            </control>
+            <posx>1065</posx>
+            <posy>160r</posy>
 			<control type="image">
 				<posx>0</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>80</height>
+				<height>130</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
+            <control type="button" id="5572">
+                <description>KB_minus</description>
+				<onup>Control.SetFocus(4241)</onup>
+				<onright>Control.SetFocus(5571)</onright>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>160</width>
+                <height>160</height>
+				<texturenofocus border="6"></texturenofocus>
+                <texturefocus>list_focus.png</texturefocus>
+                <onclick>VolumeDown</onclick>
+            </control>
 			<control type="image">
                 <description>Volume down</description>
                 <posx>20</posx>
                 <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
+                <width>160</width>
+                <height>160</height>
                 <texture colordiffuse="icons">osd_volume2.png</texture>
+                <bordersize>12</bordersize>
+            </control>
+			<control type="image">
+				<posx>160</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>130</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+                <description>Volume up</description>
+                <posx>160</posx>
+                <posy>5</posy>
+                <width>160</width>
+                <height>160</height>
+                <texture colordiffuse="icons">osd_volume.png</texture>
                 <bordersize>12</bordersize>
             </control>
             <control type="button" id="5571">
@@ -872,46 +823,31 @@
 				<onup>Control.SetFocus(4241)</onup>
 				<onleft>Control.SetFocus(5572)</onleft>
 				<onright>Control.SetFocus(4273)</onright>
-                <posx>110</posx>
+                <posx>160</posx>
                 <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
+                <width>160</width>
+                <height>160</height>
                 <texturenofocus border="6"></texturenofocus>
                 <texturefocus >list_focus.png</texturefocus>
                 <onclick>VolumeUp</onclick>
             </control>
-			<control type="image">
-				<posx>110</posx>
-				<posy>15</posy>
-				<width>1</width>
-				<height>80</height>
-				<texture >linie_albastra_v.png</texture>
-				<colordiffuse></colordiffuse>
-			</control>
-			<control type="image">
-                <description>Volume up</description>
-                <posx>120</posx>
-                <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
-                <texture colordiffuse="icons">osd_volume.png</texture>
-                <bordersize>12</bordersize>
-            </control>
+
+			
         </control>
     </include>
 	<include name="VolumeRightOSD">
     	<control type="group" id="5570">
             <include>Window_OpenClose_Animation_Slide_Up</include>
             <posx>1250</posx>
-            <posy>105r</posy>
+            <posy>160r</posy>
             <control type="button" id="5572">
                 <description>KB_minus</description>
 				<onup>Control.SetFocus(4241)</onup>
 				<onright>Control.SetFocus(5571)</onright>
                 <posx>0</posx>
                 <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
+                <width>160</width>
+                <height>160</height>
 				<texturenofocus border="6"></texturenofocus>
                 <texturefocus>list_focus.png</texturefocus>
                 <onclick>VolumeDown</onclick>
@@ -920,7 +856,7 @@
 				<posx>0</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>80</height>
+				<height>180</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
@@ -928,8 +864,8 @@
                 <description>Volume down</description>
                 <posx>20</posx>
                 <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
+                <width>160</width>
+                <height>160</height>
                 <texture colordiffuse="icons">osd_volume2.png</texture>
                 <bordersize>12</bordersize>
             </control>
@@ -940,8 +876,8 @@
 				<onright>Control.SetFocus(4273)</onright>
                 <posx>110</posx>
                 <posy>0</posy>
-                <width>110</width>
-                <height>120</height>
+                <width>120</width>
+                <height>240</height>
                 <texturenofocus border="6"></texturenofocus>
                 <texturefocus >list_focus.png</texturefocus>
                 <onclick>VolumeUp</onclick>
@@ -950,7 +886,7 @@
 				<posx>110</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>80</height>
+				<height>180</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
@@ -958,8 +894,8 @@
                 <description>Volume up</description>
                 <posx>120</posx>
                 <posy>5</posy>
-                <width>90</width>
-                <height>100</height>
+                <width>160</width>
+                <height>160</height>
                 <texture colordiffuse="icons">osd_volume.png</texture>
                 <bordersize>12</bordersize>
             </control>
@@ -968,13 +904,13 @@
 	<include name="FullscreenButton">
 		<control type="group" id="4272">
 		<posx>220</posx>
-		<posy>105r</posy>
+		<posy>220r</posy>
 		<control type="button" id="4273">
 		<description>Fullscreen</description>
 				<posx>0</posx>
 				<posy>0</posy>
-				<width>100</width>
-				<height>100</height>		
+				<width>200</width>
+				<height>200</height>		
 				<onup>Control.SetFocus(4241)</onup>
 				<onright>Control.SetFocus(600)</onright>
 				<onleft>Control.SetFocus(5571)</onleft>
@@ -987,15 +923,15 @@
 				<posx>100</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>80</height>
+				<height>180</height>
 				<texture >linie_albastra_v.png</texture>
 			</control>
 			<control type="image">
                 <description>Fullscreen</description>
                 <posx>5</posx>
                 <posy>15</posy>
-                <width>90</width>
-                <height>80</height>
+                <width>180</width>
+                <height>160</height>
                 <texture colordiffuse="icons">fullscreen.png</texture>
                 <bordersize>12</bordersize>
             </control>
@@ -1082,19 +1018,19 @@
 	<include name="PlayerControlsAll">
 		<control type="group" id="9040">
 		<include>Window_OpenClose_Animation_Slide_Up</include>
-				<onleft>Control.SetFocus(4273)</onleft>
-                <onright>Control.SetFocus(9002)</onright>
-                <onup>Control.SetFocus()</onup>
-        		<ondown>Control.SetFocus()</ondown>
+			<onleft>Control.SetFocus(4273)</onleft>
+            <onright>Control.SetFocus(9002)</onright>
+            <onup>Control.SetFocus()</onup>
+        	<ondown>Control.SetFocus()</ondown>
 			<!--<visible>Player.HasAudio | Player.HasVideo</visible>-->
-			<posx>430</posx>
-			<posy>90r</posy>
+			<posx>200</posx>
+			<posy>160r</posy>
 			<include>16x9_xPos_Relocation</include>
 			<control type="button" id="600">
 				<posx>0</posx>
-				<posy>4</posy>
-				<width>100</width>
-				<height>70</height>
+				<posy>10</posy>
+				<width>140</width>
+				<height>140</height>
 				<label></label>
 				<font>-</font>
 				<texturefocus colordiffuse="blue">osd_previous.png</texturefocus>
@@ -1106,10 +1042,10 @@
                 <onclick>PlayerControl(Previous)</onclick>
 			</control>
 			<control type="togglebutton" id="602">
-				<posx>120</posx>
-				<posy>4</posy>
-				<width>100</width>
-				<height>70</height>
+				<posx>160</posx>
+				<posy>10</posy>
+				<width>140</width>
+				<height>140</height>
 				<label></label>
 				<altlabel></altlabel>
 				<font>-</font>
@@ -1125,10 +1061,10 @@
 				<onclick>PlayerControl(Play)</onclick>
 			</control>
 			<control type="button" id="603">
-				<posx>240</posx>
-				<posy>4</posy>
-				<width>100</width>
-				<height>70</height>
+				<posx>320</posx>
+				<posy>10</posy>
+				<width>140</width>
+				<height>140</height>
 				<label></label>
 				<font>-</font>
 				<texturefocus colordiffuse="blue">osd_stop.png</texturefocus>
@@ -1140,10 +1076,10 @@
 				<onclick>PlayerControl(Stop)</onclick>
 			</control>
 			<control type="button" id="605">
-				<posx>360</posx>
-				<posy>4</posy>
-				<width>100</width>
-				<height>70</height>
+				<posx>480</posx>
+				<posy>10</posy>
+				<width>140</width>
+				<height>140</height>
 				<label></label>
 				<font>-</font>
 				<texturefocus colordiffuse="blue">osd_next.png</texturefocus>
@@ -1369,32 +1305,10 @@
 		</control>
 	</include>
 	<include name="Header">
-		<control type="group">
-			<include>VisibleFadeEffect</include>
-			<control type="image">
-				<posx>0</posx>
-				<posy>0</posy>
-				<include>ScreenWidth</include>
-				<height>100</height>
-				<texture>bara_sus.png</texture>
-			</control>
-			
-			<control type="button">
-				<description>Home Button</description>
-				<posx></posx>
-				<posy>2</posy>
-				<width>100</width>
-				<height>95</height>
-				<font></font>
-				<texturenofocus colordiffuse="icons">icon_home.png</texturenofocus>
-				<texturefocus colordiffuse="icons">icon_home.png</texturefocus>
-				<onclick>ActivateWindow(Home)</onclick>
-			</control>	
-		</control>
 		<control type="grouplist">
 			<include>VisibleFadeEffect</include>
-			<posx>415r</posx>
-			<posy>16</posy>
+			<posx></posx>
+			<posy>2</posy>
 			<width>400</width>
 			<height>70</height>
 			<align>right</align>
@@ -1411,13 +1325,36 @@
 				<label>$INFO[System.Time]</label>
 			</control>
 		</control>
+		<control type="group">
+			<include>VisibleFadeEffect</include>
+			<control type="image">
+				<posx>0</posx>
+				<posy>0</posy>
+				<include>ScreenWidth</include>
+				<height>100</height>
+				<texture>bara_sus.png</texture>
+			</control>
+			
+			<control type="button">
+				<description>Home Button</description>
+				<posx>90r</posx>
+				<posy>16</posy>
+				<width>100</width>
+				<height>95</height>
+				<font></font>
+				<texturenofocus colordiffuse="icons">icon_home.png</texturenofocus>
+				<texturefocus colordiffuse="icons">icon_home.png</texturefocus>
+				<onclick>ActivateWindow(Home)</onclick>
+			</control>	
+		</control>
+		
 	</include>
 	<include name="Footer">
 		<control type="image">
 			<posx>0</posx>
-			<posy>110r</posy>
+			<posy>160r</posy>
 			<include>ScreenWidth</include>
-			<height>110</height>
+			<height>160</height>
 			<texture >bara_jos.png</texture>
 		</control>
 		<control type="rss">
@@ -1435,10 +1372,10 @@
 		</control>
 		<control type="image">
 			<description>Window Icon</description>
-			<posx>10</posx>
-			<posy>80r</posy>
-			<width>50</width>
-			<height>50</height>
+			<posx>20</posx>
+			<posy>130r</posy>
+			<width>100</width>
+			<height>100</height>
 			<aspectratio>keep</aspectratio>
 			<texture>$VAR[Breadcrumb-Icon]</texture>
 			<colordiffuse>blue</colordiffuse>
@@ -1459,13 +1396,13 @@
 		</control>
 	</include>
 	<include name="MediaWindowTitleCommons">
-		<posx>85</posx>
-		<posy>85r</posy>
+		<posx>140</posx>
+		<posy>110r</posy>
 		<width>730</width>
 		<height>64</height>
 		<align>left</align>
 		<aligny>center</aligny>
-		<font>font30_title</font>
+		<font>font40_title</font>
 		<textcolor>white</textcolor>
 		<scroll>false</scroll>
 		<include>Window_OpenClose_Animation</include>
@@ -1490,7 +1427,7 @@
 				<posx>0</posx>
 				<posy>50</posy>
 				<width>50</width>
-				<height>570</height>
+				<height>500</height>
 				<texturesliderbackground >square80.png</texturesliderbackground>
 				<texturesliderbar colordiffuse="grey">white.png</texturesliderbar>
 				<texturesliderbarfocus colordiffuse="blue">white.png</texturesliderbarfocus>
@@ -1632,48 +1569,48 @@
 		<animation effect="slide" start="0,0" end="360,0" time="0" condition="String.IsEqual(Container(9002).NumItems,3)">conditional</animation>
 		<animation effect="slide" start="0,0" end="480,0" time="0" condition="String.IsEqual(Container(9002).NumItems,2)">conditional</animation>
 		<animation effect="slide" start="0,0" end="600,0" time="0" condition="String.IsEqual(Container(9002).NumItems,1)">conditional</animation>
-		<posx>710r</posx>
-		<posy>110r</posy>
-		<width>802</width>
-		<height>120</height>
+		<posx>800r</posx>
+		<posy>160r</posy>
+		<width>800</width>
+		<height>160</height>
 		<onleft>9040</onleft>
 		<onright>9002</onright>
 		<onup>9001</onup>
 		<ondown>20</ondown>
 		<scrolltime>300</scrolltime>
 		<orientation>Horizontal</orientation>
-		<itemlayout height="110" width="120">
-			<control type="image">
-				<posx>15</posx>
-				<posy>5</posy>
-				<width>90</width>
-				<height>100</height>
-				<bordersize>12</bordersize>
-				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
-				<aspectratio>keep</aspectratio>
-			</control>
+		<itemlayout height="160" width="160">
 			<control type="image">
 				<posx>0</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>80</height>
+				<height>135</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
-		</itemlayout>
-		<focusedlayout height="110" width="120">
 			<control type="image">
 				<posx>0</posx>
+				<posy>5</posy>
+				<width>159</width>
+				<height>160</height>
+				<bordersize>12</bordersize>
+				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
+				<aspectratio>keep</aspectratio>
+			</control>
+		</itemlayout>
+		<focusedlayout height="160" width="160">
+			<control type="image">
+				<posx>2</posx>
 				<posy>0</posy>
-				<width>120</width>
-				<height>110</height>
+				<width>160</width>
+				<height>160</height>
 				<texture>list_focus.png</texture>
 			</control>
 			<control type="image">
-				<posx>15</posx>
+				<posx>0</posx>
 				<posy>5</posy>
-				<width>90</width>
-				<height>100</height>
+				<width>159</width>
+				<height>160</height>
 				<bordersize>12</bordersize>
 				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
 				<aspectratio>keep</aspectratio>
