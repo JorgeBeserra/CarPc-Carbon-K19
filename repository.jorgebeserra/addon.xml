@@ -4,7 +4,7 @@
         <import addon="xbmc.addon" version="13.0.0"/>
     </requires>
     <extension point="xbmc.addon.repository" name="Jorge Beserra Repository">
-        <dir>
+        <dir maxversion="21.1.0">
             <info compressed="false">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/refs/heads/master/addons.xml</info>
             <checksum>https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/refs/heads/master/addons.xml.md5</checksum>
             <datadir zip="true">https://github.com/JorgeBeserra/CarPc-Carbon-K19/raw/master/zips/</datadir>
