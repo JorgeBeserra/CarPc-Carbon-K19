@@ -4,6 +4,8 @@ import platform
 import xbmc
 import xbmcaddon
 import xbmcgui
+import time
+import threading
 from xbmc import Monitor, Player
 
 from lib.ReverseGearManager import ReverseGearManager
@@ -52,26 +54,39 @@ def get_serial_config():
 
 # Função para mostrar a caixa de diálogo
 def mostrar_dialogo_desligamento():
-    xbmc.log("Kodi: Gerando Dialogo", xbmc.LOGINFO)
+    xbmc.log("Kodi: Gerando Dialogo com contador", xbmc.LOGINFO)
     # Criação da caixa de diálogo
-    dialog = xbmcgui.Dialog()
-
-    # Mensagem da caixa de diálogo
-    mensagem = "O desligamento está próximo. Deseja cancelar ou re-agendar?"
-
-    # Opções para os botões
+    pDialog = xbmcgui.DialogProgress()
+    mensagem_base = "O desligamento está próximo. Deseja cancelar ou re-agendar?"
     botoes = ["Cancelar", "Re-agendar"]
+    tempo_total = 30  # Tempo em segundos para o contador
+    tempo_restante = tempo_total
 
-    # Mostrar a caixa de diálogo com opções
-    escolha = dialog.yesno("Desligamento Próximo", mensagem, "", "", botoes[0], botoes[1])
+    # Variável para controlar a escolha do usuário
+    escolha = None
+    dialog_closed = False
 
-    # Ação baseada na escolha do usuário
-    if escolha == 1:  # Índice do botão "Re-agendar"
-        # Aqui você pode adicionar lógica para re-agendar o desligamento
-        xbmcgui.Dialog().ok("Desligamento", "Desligamento re-agendado.")
+    pDialog.create("Desligamento Próximo", f"{mensagem_base}\nDesligando em {tempo_restante} segundos...")
+    for i in range(tempo_total, -1, -1):
+        tempo_restante = i
+        if monitor.abortRequested() or pDialog.iscanceled():
+            pDialog.close()
+            xbmc.log("Diálogo cancelado pelo usuário ou Kodi", xbmc.LOGINFO)
+            return
+        percent = int((i / tempo_total) * 100)
+        pDialog.update(percent, f"{mensagem_base}\nDesligando em {i} segundos...")
+        time.sleep(1)
+        
+    pDialog.close()
+
+    # Após o contador, verifica se o tempo esgotou
+    if tempo_restante == 0:
+        xbmc.log("Tempo esgotado, encerrando Kodi", xbmc.LOGINFO)
+        xbmc.executebuiltin("Quit")
     else:
-        # Cancelar o desligamento
-        xbmcgui.Dialog().ok("Desligamento", "Desligamento cancelado.")
+        # Mostra o diálogo de escolha
+        xbmc.log("Tempo nao acabou", xbmc.LOGINFO)
+
 
 def parse_can_message(raw_data):
     """Processa os dados brutos do CAN bus e determina o status das portas."""
