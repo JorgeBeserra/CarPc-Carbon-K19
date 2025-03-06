@@ -280,7 +280,7 @@ def ui_worker():
 
 if __name__ == "__main__":
     xbmc.log("Serviço iniciado", xbmc.LOGINFO)
-    mostrar_dialogo_desligamento()
+    # mostrar_dialogo_desligamento() # Só Desativar para testar o Dialog
 
     # Inicia threads
     serial_thread = threading.Thread(target=serial_worker, daemon=True)
