@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+    <addon id="repository.jorgebeserra" name="Jorge Beserra Repository" version="1.0.0" provider-name="JorgeBeserra">
+        <requires>
+            <import addon="xbmc.addon" version="12.0.0"/>
+        </requires>
+        <extension point="xbmc.addon.repository" name="Jorge Beserra Repository">
+            <info compressed="false">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://github.com/JorgeBeserra/CarPc-Carbon-K19/raw/master/zips/</datadir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>Jorge Beserra's Addon Repository</summary>
+            <description>Repository for CarPc-Carbon and related addons</description>
+            <platform>all</platform>
+        </extension>
+    </addon>
+    <addon id="skin.CarPc-Carbon" name="CarPc-Carbon" version="2.0.11" provider-name="idorel77">
+        <requires>
+            <import addon="xbmc.gui" version="5.17.0"/>
+            <import addon="xbmc.python" version="3.0.0"/>
+        </requires>
+        <extension point="xbmc.gui.skin" debugging="false">
+            <res width="1706" height="960" aspect="4:3" default="false" folder="xml"/>
+            <res width="1706" height="960" aspect="16:9" default="true" folder="xml"/>
+        </extension>
+        <extension point="xbmc.service" library="service.py" start="startup"/>
+        <extension point="xbmc.python.script" library="default.py">
+            <provides>executable</provides>
+        </extension>
+        <extension point="xbmc.python.module" library="lib" />
+        <extension point="xbmc.addon.metadata">
+            <platform>all</platform>
+            <summary lang="en_US">Skin for touchscreen devices</summary>
+            <description lang="en_US">Skin designed to be used on touchscreen devices like tablets and smartphones</description>
+            <license>Creative Commons Attribution-Share Alike 3.0 United States</license>
+        </extension>
+    </addon>
+</addons>
