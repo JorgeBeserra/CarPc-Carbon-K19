@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.jorgebeserra" name="Jorge Beserra Repository" version="1.0.3" provider-name="JorgeBeserra">
+<addon id="repository.jorgebeserra" name="Jorge Beserra Repository" version="1.0.4" provider-name="JorgeBeserra">
     <requires>
         <import addon="xbmc.addon" version="12.0.0"/>
     </requires>
