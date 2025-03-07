@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.jorgebeserra" name="Jorge Beserra Repository" version="1.0.2" provider-name="JorgeBeserra">
+<addon id="repository.jorgebeserra" name="Jorge Beserra Repository" version="1.0.3" provider-name="JorgeBeserra">
     <requires>
         <import addon="xbmc.addon" version="12.0.0"/>
     </requires>
     <extension point="xbmc.addon.repository" name="Jorge Beserra Repository">
         <dir minversion="19.0.0">
-            <info compressed="false">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/refs/heads/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/refs/heads/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/raw/master/zips/</datadir>
+            <info compressed="false">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/JorgeBeserra/CarPc-Carbon-K19/master/zips</datadir>
         </dir>
     </extension>
     <extension point="xbmc.addon.metadata">
@@ -15,7 +15,7 @@
         <description>Repository for CarPc-Carbon and related addons</description>
         <source>https://github.com/jorgebeserra/CarPc-Carbon-K19/</source>
         <platform>all</platform>
-        <summary lang="pt_BR">Instale Add-ons do Kodi.tv</summary>
-        <description lang="pt_BR">Transfira e instale add-ons a partir do repositório oficial do Kodi.tv.[CR]|Ao utilizar o repositório oficial, você será capaz de tirar proveito do nosso serviço de espelhamento de arquivos, auxiliando em downloads mais rápidos a partir de uma região perto de você.[CR]|Todos os add-ons neste repositório passam por testes básicos, se você encontrar algum quebrado ou que não esteja funcionando, por favor reporte para a equipe do Kodi, para que possamos tomar as ações necessárias.</description>
+        <summary lang="pt_BR">Instale Add-ons do Jorge Beserra</summary>
+        <description lang="pt_BR">Transfira e instale add-ons a partir do repositório Jorge Beserra.[CR]|Ao utilizar o repositório, você será capaz de tirar proveito do nosso serviço de espelhamento de arquivos, auxiliando em downloads mais rápidos a partir de uma região perto de você.[CR]|Todos os add-ons neste repositório passam por testes básicos, se você encontrar algum quebrado ou que não esteja funcionando, por favor reporte via issue no GitHub, para que possamos tomar as ações necessárias.</description>
     </extension>
 </addon>
