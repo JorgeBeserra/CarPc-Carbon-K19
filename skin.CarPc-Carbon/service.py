@@ -14,7 +14,9 @@ from lib.can_parser import CANParser
 # Adiciona o diretório do addon e a pasta lib ao sys.path
 addon_path = xbmcaddon.Addon().getAddonInfo('path')
 lib_path = os.path.join(addon_path, 'lib')
-sys.path.append(lib_path)
+
+if lib_path not in sys.path:
+    sys.path.append(lib_path)
 
 try:
     import serial
