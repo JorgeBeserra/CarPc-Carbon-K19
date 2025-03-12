@@ -101,6 +101,36 @@ def parse_can_message(raw_data):
             xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
             mostrar_dialogo_desligamento()
 
+        # Verifica se é uma mensagem de ADC
+        if "Valor ADC bruto 1:" in raw_data:
+            adc_value = int(raw_data.split("Valor ADC bruto 1: ")[1].strip())
+            with status_lock:
+                # Mapeamento dos valores do ADC para ações
+                if 3300 <= adc_value <= 3400:  # Música Anterior 
+                    door_status["volume_action"] = "Música Anterior"
+                    xbmc.executebuiltin("PlayerControl(Previous)")
+                    xbmc.log(f"ADC {adc_value}: Música anterior", xbmc.LOGINFO)
+                elif 3600 <= adc_value <= 3700:  # Próxima Música
+                    door_status["volume_action"] = "Próxima Música"
+                    xbmc.executebuiltin("PlayerControl(Next)")
+                    xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
+                elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
+                    door_status["volume_action"] = "Mute"
+                    xbmc.executebuiltin("Mute")
+                    xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
+                elif 3880 <= adc_value <= 3890:  # Exemplo: Volume -
+                    door_status["volume_action"] = "Volume -"
+                    xbmc.executebuiltin("VolumeDown")
+                    xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
+                elif 4040 <= adc_value <= 4095:  # Exemplo: Volume +
+                    door_status["volume_action"] = "Volume +"
+                    xbmc.executebuiltin("VolumeUp")
+                    xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
+                elif 2300 <= adc_value <= 2450:  # Estado neutro
+                    door_status["volume_action"] = "Neutro"
+
+            return  # Sai após processar ADC
+
         parts = raw_data.split(" : ")
 
         if len(parts) < 2:
