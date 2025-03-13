@@ -44,6 +44,15 @@ door_status = {
 }
 status_lock = threading.Lock()
 
+
+def adjust_volume(direction):
+    current_volume = xbmc.getInfoLabel("Player.Volume")  # Retorna volume em dB (ex.: "-12.0 dB")
+    current_volume = float(current_volume.replace(" dB", ""))  # Converte para float
+    step = 2  # Ajuste em 2 dB por vez (pode mudar)
+    new_volume = current_volume - step if direction == "down" else current_volume + step
+    new_volume = max(-60, min(0, new_volume))  # Limita entre -60 dB e 0 dB
+    xbmc.executebuiltin(f"SetVolume({int(new_volume * 100 / 60 + 100)})")
+
 def get_serial_config():
     system = platform.system()
     default_port = "COM3" if system == "Windows" else "/dev/ttyUSB0"
