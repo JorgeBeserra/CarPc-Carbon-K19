@@ -251,28 +251,55 @@ class ReverseVideoPlayer(xbmc.Player):
     def __init__(self):
         super().__init__()
         self.playing = False
+        self.ffmpeg_process = None
+        self.pipe_path = "/tmp/video_pipe"
 
+    def start_ffmpeg_stream(self):
+        # Cria o pipe se não existir
+        if not os.path.exists(self.pipe_path):
+            os.mkfifo(self.pipe_path)
+
+        # Comando FFmpeg ajustado para o LibreELEC
+        ffmpeg_cmd = [
+            "ffmpeg",
+            "-f", "v4l2",
+            "-input_format", "mjpeg",
+            "-i", "/dev/video0",
+            "-c:v", "mpeg2video",
+            "-b:v", "5000k",
+            "-f", "mpegts",
+            self.pipe_path
+        ]
+
+        # Executa o FFmpeg em um subprocesso
+        self.ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
+    
     def play_reverse_video(self):
         if not self.playing:
-            # Altere para o caminho do seu dispositivo de captura
-            video_url = "v4l2:///dev/video0"  # Exemplo para Linux
+            # Inicia o FFmpeg em uma thread separada
+            threading.Thread(target=self.start_ffmpeg_stream, daemon=True).start()
+            
+            # Aguarda um momento para garantir que o FFmpeg comece a escrever no pipe
+            time.sleep(1)
 
-            ffmpeg_cmd = (
-                "ffmpeg -f v4l2 -input_format mjpeg -i /dev/video0 "  # Formato de entrada MJPEG
-                "-vf 'format=yuv420p' "
-                "-c:v libx264 -preset ultrafast -tune zerolatency " 
-                "-f mpegts -"
-            )
-
-            self.play(ffmpeg_cmd)
+            # Reproduz o stream do pipe
+            self.play("file://" + self.pipe_path)
             self.playing = True
             xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
 
     def stop_reverse_video(self):
         if self.playing:
             self.stop()
+            if self.ffmpeg_process:
+                self.ffmpeg_process.terminate()  # Encerra o FFmpeg
+                self.ffmpeg_process.wait()       # Aguarda o término
+                self.ffmpeg_process = None
             self.playing = False
             xbmc.executebuiltin("Dialog.Close(all,true)")
+            # Remove o pipe após parar
+            if os.path.exists(self.pipe_path):
+                os.remove(self.pipe_path)
 
 def serial_worker():
     """Thread para comunicação serial com otimizações"""
