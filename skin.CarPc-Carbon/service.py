@@ -127,14 +127,14 @@ def parse_can_message(raw_data):
                     door_status["volume_action"] = "Mute"
                     xbmc.executebuiltin("Mute")
                     xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3890:  # Exemplo: Volume -
-                    door_status["volume_action"] = "Volume -"
-                    xbmc.executebuiltin("VolumeDown")
-                    xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4095:  # Exemplo: Volume +
+                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume +"
-                    xbmc.executebuiltin("VolumeUp")
+                    adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
+                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume +
+                    door_status["volume_action"] = "Volume -"
+                    adjust_volume("down")
+                    xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
                 elif 2300 <= adc_value <= 2450:  # Estado neutro
                     door_status["volume_action"] = "Neutro"
 
@@ -147,24 +147,24 @@ def parse_can_message(raw_data):
                 # Mapeamento dos valores do ADC para ações
                 if 3300 <= adc_value <= 3400:  # Música Anterior 
                     door_status["volume_action"] = "Música Anterior"
-                    xbmc.executebuiltin("PlayerControl(Previous)")
+                    xbmc.executebuiltin("PlayerControl(rewind)")
                     xbmc.log(f"ADC {adc_value}: Música anterior", xbmc.LOGINFO)
                 elif 3600 <= adc_value <= 3700:  # Próxima Música
                     door_status["volume_action"] = "Próxima Música"
-                    xbmc.executebuiltin("PlayerControl(Next)")
+                    xbmc.executebuiltin("PlayerControl(forward)")
                     xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
                 elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
                     door_status["volume_action"] = "Mute"
                     xbmc.executebuiltin("Mute")
                     xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3890:  # Exemplo: Volume -
-                    door_status["volume_action"] = "Volume -"
-                    xbmc.executebuiltin("VolumeDown")
-                    xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4095:  # Exemplo: Volume +
+                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume +"
-                    xbmc.executebuiltin("VolumeUp")
+                    adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
+                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume -
+                    door_status["volume_action"] = "Volume -"
+                    adjust_volume("down")
+                    xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
                 elif 2300 <= adc_value <= 2450:  # Estado neutro
                     door_status["volume_action"] = "Neutro"
 
