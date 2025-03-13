@@ -4,6 +4,7 @@ import platform
 import xbmc
 import xbmcaddon
 import xbmcgui
+import subprocess
 import time
 import threading
 from xbmc import Monitor, Player
@@ -253,11 +254,34 @@ class ReverseVideoPlayer(xbmc.Player):
         self.playing = False
         self.ffmpeg_process = None
         self.pipe_path = "/tmp/video_pipe"
+        self.previous_item = None  # Armazena o item anterior (arquivo ou playlist)
+        self.previous_position = 0  # Armazena a posição de reprodução
+
+    def save_current_playback(self):
+        """Salva o estado da reprodução atual antes de exibir a câmera."""
+        if self.isPlaying():
+            self.previous_media = self.getPlayingFile()  # Arquivo ou URL atual
+            self.previous_position = self.getTime()      # Posição atual em segundos
+            self.pause()                                 # Pausa a reprodução
+            xbmc.log(f"Salvando mídia anterior: {self.previous_media} na posição {self.previous_position}", xbmc.LOGINFO)
+        else:
+            self.previous_media = None
+            self.previous_position = 0
+
+    def restore_previous_playback(self):
+        """Restaura a reprodução anterior, se existia."""
+        if self.previous_media:
+            xbmc.log(f"Restaurando mídia: {self.previous_media} na posição {self.previous_position}", xbmc.LOGINFO)
+            self.play(self.previous_media)  # Retoma a mídia anterior
+            self.seekTime(self.previous_position)  # Volta para a posição salva
+            self.previous_media = None  # Limpa o estado após restaurar
 
     def start_ffmpeg_stream(self):
+        xbmc.log("Iniciando start_ffmpeg_stream", xbmc.LOGINFO)
         # Cria o pipe se não existir
         if not os.path.exists(self.pipe_path):
             os.mkfifo(self.pipe_path)
+            xbmc.log(f"Pipe criado em {self.pipe_path}", xbmc.LOGINFO)
 
         # Comando FFmpeg ajustado para o LibreELEC
         ffmpeg_cmd = [
@@ -272,34 +296,62 @@ class ReverseVideoPlayer(xbmc.Player):
         ]
 
         # Executa o FFmpeg em um subprocesso
-        self.ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
-    
+        with open("/tmp/ffmpeg_error.log", "w") as error_log:
+            self.ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=error_log)
+            xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
+
+        # Verifica se o FFmpeg está rodando
+        time.sleep(1)
+        if self.ffmpeg_process.poll() is None:
+            xbmc.log("FFmpeg está ativo", xbmc.LOGINFO)
+        else:
+            xbmc.log(f"FFmpeg terminou inesperadamente com código {self.ffmpeg_process.returncode}", xbmc.LOGERROR)
+
+        if os.path.exists("/tmp/ffmpeg_error.log"):
+            with open("/tmp/ffmpeg_error.log", "r") as error_log:
+                stderr_output = error_log.read()
+                if stderr_output:
+                    xbmc.log(f"FFmpeg stderr: {stderr_output}", xbmc.LOGERROR)
+
     def play_reverse_video(self):
         if not self.playing:
+            # Salva o estado da reprodução atual
+            self.save_current_playback()
             # Inicia o FFmpeg em uma thread separada
             threading.Thread(target=self.start_ffmpeg_stream, daemon=True).start()
-            
             # Aguarda um momento para garantir que o FFmpeg comece a escrever no pipe
-            time.sleep(1)
+            time.sleep(3)
+            if os.path.exists(self.pipe_path):
+                pipe_size = os.path.getsize(self.pipe_path) if os.path.getsize(self.pipe_path) > 0 else 0
+                xbmc.log(f"Pipe existe, tamanho: {pipe_size} bytes", xbmc.LOGINFO)
+                if pipe_size > 0:
+                    xbmc.log("Pipe contém dados, iniciando reprodução", xbmc.LOGINFO)
+                else:
+                    xbmc.log("Pipe vazio, possível erro no FFmpeg", xbmc.LOGERROR)
+            else:
+                xbmc.log("Pipe não foi criado", xbmc.LOGERROR)
 
             # Reproduz o stream do pipe
-            self.play("file://" + self.pipe_path)
+            play_path = "file:///" + self.pipe_path
+            xbmc.log(f"Tentando reproduzir: {play_path}", xbmc.LOGINFO)
+            self.play(play_path)
             self.playing = True
             xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
 
     def stop_reverse_video(self):
         if self.playing:
+            xbmc.log("Parando play_reverse_video", xbmc.LOGINFO)
             self.stop()
             if self.ffmpeg_process:
-                self.ffmpeg_process.terminate()  # Encerra o FFmpeg
-                self.ffmpeg_process.wait()       # Aguarda o término
+                self.ffmpeg_process.terminate()
+                self.ffmpeg_process.wait()
                 self.ffmpeg_process = None
             self.playing = False
             xbmc.executebuiltin("Dialog.Close(all,true)")
-            # Remove o pipe após parar
             if os.path.exists(self.pipe_path):
                 os.remove(self.pipe_path)
+
+            self.restore_previous_playback()
 
 def serial_worker():
     """Thread para comunicação serial com otimizações"""
