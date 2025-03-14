@@ -278,6 +278,11 @@ class ReverseVideoPlayer(xbmc.Player):
 
     def start_ffmpeg_stream(self):
         xbmc.log("Iniciando start_ffmpeg_stream", xbmc.LOGINFO)
+
+        if os.path.exists(self.pipe_path):
+            os.remove(self.pipe_path)
+            xbmc.log(f"Pipe antigo removido: {self.pipe_path}", xbmc.LOGINFO)
+
         # Cria o pipe se não existir
         if not os.path.exists(self.pipe_path):
             os.mkfifo(self.pipe_path)
@@ -286,6 +291,7 @@ class ReverseVideoPlayer(xbmc.Player):
         # Comando FFmpeg ajustado para o LibreELEC
         ffmpeg_cmd = [
             "ffmpeg",
+            "-y",
             "-f", "v4l2",
             "-input_format", "mjpeg",
             "-i", "/dev/video0",
@@ -301,7 +307,7 @@ class ReverseVideoPlayer(xbmc.Player):
             xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
 
         # Verifica se o FFmpeg está rodando
-        time.sleep(1)
+        time.sleep(2)
         if self.ffmpeg_process.poll() is None:
             xbmc.log("FFmpeg está ativo", xbmc.LOGINFO)
         else:
@@ -320,7 +326,7 @@ class ReverseVideoPlayer(xbmc.Player):
             # Inicia o FFmpeg em uma thread separada
             threading.Thread(target=self.start_ffmpeg_stream, daemon=True).start()
             # Aguarda um momento para garantir que o FFmpeg comece a escrever no pipe
-            time.sleep(3)
+            time.sleep(2)
             if os.path.exists(self.pipe_path):
                 pipe_size = os.path.getsize(self.pipe_path) if os.path.getsize(self.pipe_path) > 0 else 0
                 xbmc.log(f"Pipe existe, tamanho: {pipe_size} bytes", xbmc.LOGINFO)
@@ -421,6 +427,7 @@ def ui_worker():
                 xbmc.log(f"Porta Traseira Esquerda: {door_status['rear_left']}", xbmc.LOGINFO)
                 xbmc.log(f"Porta Traseira Direita: {door_status['rear_right']}", xbmc.LOGINFO)
                 xbmc.log(f"Porta-malas: {door_status['trunk']}", xbmc.LOGINFO)
+                xbmc.log(f"Marcha Ré: {current_state['reverse_gear']}", xbmc.LOGINFO)
             
             monitor.waitForAbort(0.5)  # Espera 0.5s de forma não-bloqueante
 
