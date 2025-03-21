@@ -273,7 +273,13 @@ class ReverseVideoPlayer(xbmc.Player):
         if self.previous_media:
             xbmc.log(f"Restaurando mídia: {self.previous_media} na posição {self.previous_position}", xbmc.LOGINFO)
             self.play(self.previous_media)  # Retoma a mídia anterior
-            self.seekTime(self.previous_position)  # Volta para a posição salva
+            time.sleep(1)  # Aguarda o Kodi iniciar a reprodução
+
+            if self.isPlaying():
+                self.seekTime(self.previous_position)
+            else:
+                xbmc.log("Erro: Kodi não iniciou a reprodução.", xbmc.LOGERROR)
+            
             self.previous_media = None  # Limpa o estado após restaurar
 
     def start_ffmpeg_stream(self):
@@ -289,16 +295,31 @@ class ReverseVideoPlayer(xbmc.Player):
             xbmc.log(f"Pipe criado em {self.pipe_path}", xbmc.LOGINFO)
 
         # Comando FFmpeg ajustado para o LibreELEC
+        #    ffmpeg_cmd = [
+        #        "ffmpeg",
+        #        "-y",
+        #        "-f", "v4l2",
+        #        "-thread_queue_size", "64",
+        #        "-input_format", "yuyv422",
+        #        "-video_size", "720x480",
+        #        "-i", "/dev/video0",
+        #        "-c:v", "mpeg2video",
+        #        "-b:v", "5000k",
+        #        "-f", "mpegts",
+        #        self.pipe_path
+        #    ]
+
         ffmpeg_cmd = [
             "ffmpeg",
             "-y",
             "-f", "v4l2",
             "-input_format", "mjpeg",
+            "-video_size", "720x480",
             "-i", "/dev/video0",
-            "-c:v", "mpeg2video",
+            "-q:v", "2",
             "-b:v", "5000k",
             "-f", "mpegts",
-            self.pipe_path
+            "udp://127.0.0.1:1234"
         ]
 
         # Executa o FFmpeg em um subprocesso
@@ -307,7 +328,7 @@ class ReverseVideoPlayer(xbmc.Player):
             xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
 
         # Verifica se o FFmpeg está rodando
-        time.sleep(2)
+        time.sleep(0.5)
         if self.ffmpeg_process.poll() is None:
             xbmc.log("FFmpeg está ativo", xbmc.LOGINFO)
         else:
@@ -338,9 +359,10 @@ class ReverseVideoPlayer(xbmc.Player):
                 xbmc.log("Pipe não foi criado", xbmc.LOGERROR)
 
             # Reproduz o stream do pipe
-            play_path = "file:///" + self.pipe_path
-            xbmc.log(f"Tentando reproduzir: {play_path}", xbmc.LOGINFO)
-            self.play(play_path)
+            #play_path = "file:///" + self.pipe_path
+            #xbmc.log(f"Tentando reproduzir: {play_path}", xbmc.LOGINFO)
+            #self.play(play_path)
+            self.play("udp://127.0.0.1:1234")
             self.playing = True
             xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
 
@@ -354,8 +376,8 @@ class ReverseVideoPlayer(xbmc.Player):
                 self.ffmpeg_process = None
             self.playing = False
             xbmc.executebuiltin("Dialog.Close(all,true)")
-            if os.path.exists(self.pipe_path):
-                os.remove(self.pipe_path)
+            #if os.path.exists(self.pipe_path):
+            #    os.remove(self.pipe_path)
 
             self.restore_previous_playback()
 

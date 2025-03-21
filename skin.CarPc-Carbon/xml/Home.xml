@@ -172,6 +172,7 @@
 		</include>
 		
 		<!--##################################################################################-->
+		<!--
 		<control type="togglebutton" id="131">
 			<posx>1550</posx>
 			<posy>30</posy>
@@ -188,7 +189,7 @@
 			<onclick>Skin.ToggleSetting(HideDayNight)</onclick>
 			<selected>Skin.HasSetting(HideDayNight)</selected>
 		</control>
-		
+		-->
 	<!--<include>DayNight</include>-->
 	
 		<control type="group" id="9030">

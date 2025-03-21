@@ -937,6 +937,7 @@
             </control>
 		</control>			
 	</include>
+	<!--
 	<include name="DayNight">
 		<control type="image">
 		<visible>!Skin.HasSetting(HideDayNight)</visible>
@@ -949,6 +950,7 @@
 			<animation effect="fade" time="200">Hidden</animation>
 		</control>
 	</include>  
+	-->
 	<include name="CommonAudioVideoTitle">
         <control type="group">
             <posx>0</posx>
