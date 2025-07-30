@@ -27,7 +27,7 @@ jobs:
       - name: Create addon ZIP (100% compatível)
         run: |
           cd $GITHUB_WORKSPACE
-          zip -r zips/$ADDON_ID/$VERSION/$ADDON_ID-$VERSION.zip $ADDON_ID
+          zip -r zips/$ADDON_ID/$ADDON_ID-$VERSION.zip $ADDON_ID
         shell: bash
 
       - name: Generate MD5 for addons.xml
