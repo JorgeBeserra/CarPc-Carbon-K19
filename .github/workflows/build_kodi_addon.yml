@@ -50,7 +50,4 @@ jobs:
         with:
           commit_message: 'Build addon ZIP and update MD5 [bot]'
           branch: master
-          file_pattern: |
-            zips/skin.CarPc-Carbon/*.zip
-            addons.xml
-            addons.xml.md5
+          commit_all: true
