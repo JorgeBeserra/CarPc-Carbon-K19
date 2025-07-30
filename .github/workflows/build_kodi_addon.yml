@@ -20,7 +20,7 @@ jobs:
         id: vars
         run: |
           ADDON_ID="skin.CarPc-Carbon"
-          VERSION=$(grep -Po 'version="\K[^"]+' $ADDON_ID/addon.xml | tr -d '\r\n')
+          VERSION=$(grep -Po 'version="\K[^"]+' $ADDON_ID/addon.xml | head -n1 | tr -d '\r\n')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "ADDON_ID=$ADDON_ID" >> $GITHUB_ENV
 
