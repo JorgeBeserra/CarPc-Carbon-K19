@@ -47,4 +47,5 @@ jobs:
           branch: master
           file_pattern: |
             zips/skin.CarPc-Carbon/*.zip
+            addons.xml
             addons.xml.md5
