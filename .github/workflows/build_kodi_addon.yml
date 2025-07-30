@@ -24,10 +24,6 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "ADDON_ID=$ADDON_ID" >> $GITHUB_ENV
 
-      - name: Create zip folder structure
-        run: |
-          mkdir -p zips/$ADDON_ID/$VERSION
-
       - name: Create addon ZIP (100% compatível)
         run: |
           cd ..
@@ -44,5 +40,5 @@ jobs:
           commit_message: 'Build addon ZIP and update MD5 [bot]'
           branch: master
           file_pattern: |
-            zips/$ADDON_ID/$ADDON_ID-$VERSION.zip
+            zips/skin.CarPc-Carbon/*.zip
             addons.xml.md5
