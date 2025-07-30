@@ -34,6 +34,7 @@ jobs:
         run: |
             VERSION=$(grep -Po '^<addon[^>]*version="\K[^"]+' skin.CarPc-Carbon/addon.xml | head -n1 | tr -d '\r\n')
             sed -i "s/\(<addon id=\"skin.CarPc-Carbon\" [^>]*version=\"\)[^\"]*\(\"\)/\1$VERSION\2/" addons.xml
+            grep 'skin.CarPc-Carbon' addons.xml
 
       - name: Generate MD5 for addons.xml
         run: |
