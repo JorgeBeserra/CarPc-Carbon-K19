@@ -31,7 +31,7 @@ jobs:
       - name: Create addon ZIP (100% compatível)
         run: |
           cd ..
-          zip -r $GITHUB_WORKSPACE/zips/$ADDON_ID/$VERSION/$ADDON_ID-$VERSION.zip $GITHUB_WORKSPACE/$ADDON_ID
+          zip -r $GITHUB_WORKSPACE/zips/$ADDON_ID/$ADDON_ID-$VERSION.zip $GITHUB_WORKSPACE/$ADDON_ID
         shell: bash
 
       - name: Generate MD5 for addons.xml
@@ -44,5 +44,5 @@ jobs:
           commit_message: 'Build addon ZIP and update MD5 [bot]'
           branch: master
           file_pattern: |
-            zips/$ADDON_ID/$VERSION/$ADDON_ID-$VERSION.zip
+            zips/$ADDON_ID/$ADDON_ID-$VERSION.zip
             addons.xml.md5
