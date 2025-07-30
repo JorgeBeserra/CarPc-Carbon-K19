@@ -7,6 +7,10 @@ import xbmcgui
 import subprocess
 import time
 import threading
+
+serial_conn = None
+serial_lock = threading.Lock()
+
 from xbmc import Monitor, Player
 
 from lib.ReverseGearManager import ReverseGearManager
@@ -25,9 +29,6 @@ try:
 except ImportError:
     xbmc.log("Falha ao importar PySerial", xbmc.LOGERROR)
     sys.exit()
-
-import time
-import threading
 
 
 # Configuração do Addon
@@ -383,17 +384,17 @@ class ReverseVideoPlayer(xbmc.Player):
 
 def serial_worker():
     """Thread para comunicação serial com otimizações"""
+    global serial_conn
     config = get_serial_config()
-    ser = None
 
     while not monitor.abortRequested():
         try:
-            if not ser:
-                ser = serial.Serial(**config)
+            if not serial_conn:
+                serial_conn = serial.Serial(**config)
                 xbmc.log(f"Conexão serial iniciada em {config['port']}", xbmc.LOGINFO)
 
-            if ser.in_waiting > 0:
-                raw = ser.readline().decode('utf-8', errors='ignore').strip()
+            if serial_conn.in_waiting > 0:
+                raw = serial_conn.readline().decode('utf-8', errors='ignore').strip()
                 if raw:
                     parse_can_message(raw)
 
@@ -401,19 +402,26 @@ def serial_worker():
 
         except serial.SerialException as e:
             xbmc.log(f"Erro serial: {str(e)}", xbmc.LOGERROR)
-            if ser:
-                ser.close()
-                ser = None
+            if serial_conn:
+                serial_conn.close()
+                serial_conn = None
             monitor.waitForAbort(5)
 
         except Exception as e:
             xbmc.log(f"Erro geral: {str(e)}", xbmc.LOGERROR)
             monitor.waitForAbort(1)
 
-    if ser and ser.is_open:
-        ser.close()
+    if serial_conn and serial_conn.is_open:
+        serial_conn.close()
 
-
+def enviar_serial(cmd):
+    global serial_conn
+    if serial_conn and serial_conn.is_open:
+        with serial_lock:
+            serial_conn.write((cmd + "\n").encode())
+            xbmc.log(f"Enviado para serial: {cmd}", xbmc.LOGINFO)
+    else:
+        xbmc.log("Serial não conectada para envio", xbmc.LOGERROR)
 
 def ui_worker():
     """Atualização otimizada da interface"""
