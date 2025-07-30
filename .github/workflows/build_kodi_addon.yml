@@ -29,6 +29,11 @@ jobs:
           cd $GITHUB_WORKSPACE
           zip -r zips/$ADDON_ID/$ADDON_ID-$VERSION.zip $ADDON_ID
         shell: bash
+    
+      - name: Atualiza versão do skin no addons.xml raiz
+        run: |
+            VERSION=$(grep -Po '^<addon[^>]*version="\K[^"]+' skin.CarPc-Carbon/addon.xml | head -n1 | tr -d '\r\n')
+            sed -i "s/\(<addon id=\"skin.CarPc-Carbon\" [^>]*version=\"\)[^\"]*\(\"\)/\1$VERSION\2/" addons.xml
 
       - name: Generate MD5 for addons.xml
         run: |
