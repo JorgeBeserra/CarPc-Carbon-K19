@@ -107,10 +107,11 @@ def parse_can_message(raw_data):
 
     try:
         xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
-
-        if raw_data == "ShutdownForInactivity":
-            xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
-            mostrar_dialogo_desligamento()
+        
+        # Bugs
+        #if raw_data == "ShutdownForInactivity":
+        #    xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
+        #    mostrar_dialogo_desligamento()
 
         # Verifica se é uma mensagem de ADC
         if "ADC Click:" in raw_data:
