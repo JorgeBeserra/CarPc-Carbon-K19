@@ -126,9 +126,9 @@ def parse_can_message(raw_data):
                     xbmc.executebuiltin("PlayerControl(Next)")
                     xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
                 elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
-                    door_status["volume_action"] = "Mute"
-                    xbmc.executebuiltin("Mute")
-                    xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
+                    door_status["volume_action"] = "Pause"
+                    xbmc.executebuiltin("PlayerControl(Play)")
+                    xbmc.log(f"ADC {adc_value}:  Música Pausa (Pausa)", xbmc.LOGINFO)
                 elif 3880 <= adc_value <= 3900:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume +"
                     adjust_volume("up")
@@ -156,9 +156,9 @@ def parse_can_message(raw_data):
                     xbmc.executebuiltin("PlayerControl(forward)")
                     xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
                 elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
-                    door_status["volume_action"] = "Mute"
-                    xbmc.executebuiltin("Mute")
-                    xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
+                    door_status["volume_action"] = "Pause"
+                    xbmc.executebuiltin("PlayerControl(Play)")
+                    xbmc.log(f"ADC {adc_value}: Música Pausa (Pausa)", xbmc.LOGINFO)
                 elif 3880 <= adc_value <= 3900:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume +"
                     adjust_volume("up")
