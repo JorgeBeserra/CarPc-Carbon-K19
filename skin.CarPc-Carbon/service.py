@@ -129,11 +129,11 @@ def parse_can_message(raw_data):
                     door_status["volume_action"] = "Pause"
                     xbmc.executebuiltin("PlayerControl(Play)")
                     xbmc.log(f"ADC {adc_value}:  Música Pausa (Pausa)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume -
+                elif 3880 <= adc_value <= 3930:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume +"
                     adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume +
+                elif 4040 <= adc_value <= 4080:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume -"
                     adjust_volume("down")
                     xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
@@ -159,11 +159,11 @@ def parse_can_message(raw_data):
                     door_status["volume_action"] = "Pause"
                     xbmc.executebuiltin("PlayerControl(Play)")
                     xbmc.log(f"ADC {adc_value}: Música Pausa (Pausa)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume +
+                elif 3880 <= adc_value <= 3930:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume +"
                     adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume -
+                elif 4040 <= adc_value <= 4080:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume -"
                     adjust_volume("down")
                     xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
