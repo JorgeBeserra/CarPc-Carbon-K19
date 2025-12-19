@@ -284,7 +284,7 @@
 					<label>$INFO[ListItem.Label]</label>
 				</control>
 				<control type="image">
-					<posx>340</posx>
+					<posx>330</posx>
 					<posy>10</posy>
 					<width>40</width>
 					<height>30</height>
@@ -311,7 +311,7 @@
 				<control type="image">
 					<posx>5</posx>
 					<posy>5</posy>
-					<width>380</width>
+					<width>370</width>
 					<height>168</height>
 					<aspectratio>scale</aspectratio>
 					<texture background="true">$INFO[Listitem.Icon]</texture>
@@ -335,7 +335,7 @@
 					<label>$INFO[ListItem.Label]</label>
 				</control>
 				<control type="image">
-					<posx>340</posx>
+					<posx>330</posx>
 					<posy>10</posy>
 					<width>40</width>
 					<height>30</height>

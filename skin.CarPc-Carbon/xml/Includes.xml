@@ -846,7 +846,7 @@
 				<onright>Control.SetFocus(5571)</onright>
                 <posx>0</posx>
                 <posy>0</posy>
-                <width>160</width>
+                <width>135</width>
                 <height>160</height>
 				<texturenofocus border="6"></texturenofocus>
                 <texturefocus>list_focus.png</texturefocus>
@@ -856,7 +856,7 @@
 				<posx>0</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>180</height>
+				<height>135</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
@@ -874,25 +874,25 @@
 				<onup>Control.SetFocus(4241)</onup>
 				<onleft>Control.SetFocus(5572)</onleft>
 				<onright>Control.SetFocus(4273)</onright>
-                <posx>110</posx>
+                <posx>140</posx>
                 <posy>0</posy>
-                <width>120</width>
+                <width>145</width>
                 <height>240</height>
                 <texturenofocus border="6"></texturenofocus>
                 <texturefocus >list_focus.png</texturefocus>
                 <onclick>VolumeUp</onclick>
             </control>
 			<control type="image">
-				<posx>110</posx>
+				<posx>135</posx>
 				<posy>15</posy>
 				<width>1</width>
-				<height>180</height>
+				<height>135</height>
 				<texture >linie_albastra_v.png</texture>
 				<colordiffuse></colordiffuse>
 			</control>
 			<control type="image">
                 <description>Volume up</description>
-                <posx>120</posx>
+                <posx>130</posx>
                 <posy>5</posy>
                 <width>160</width>
                 <height>160</height>
@@ -937,7 +937,7 @@
             </control>
 		</control>			
 	</include>
-	<!--
+	
 	<include name="DayNight">
 		<control type="image">
 		<visible>!Skin.HasSetting(HideDayNight)</visible>
@@ -950,7 +950,7 @@
 			<animation effect="fade" time="200">Hidden</animation>
 		</control>
 	</include>  
-	-->
+	
 	<include name="CommonAudioVideoTitle">
         <control type="group">
             <posx>0</posx>
@@ -1339,10 +1339,10 @@
 			
 			<control type="button">
 				<description>Home Button</description>
-				<posx>90r</posx>
-				<posy>16</posy>
-				<width>100</width>
-				<height>95</height>
+				<posx>1550</posx>
+				<posy>-26</posy>
+				<width>150</width>
+				<height>150</height>
 				<font></font>
 				<texturenofocus colordiffuse="icons">icon_home.png</texturenofocus>
 				<texturefocus colordiffuse="icons">icon_home.png</texturefocus>
@@ -1427,9 +1427,9 @@
 			<animation effect="slide" start="0,0" end="-7,0" time="0" condition="String.IsEqual(Skin.AspectRatio,4:3)">Conditional</animation>
 			<control type="scrollbar" id="60">
 				<posx>0</posx>
-				<posy>50</posy>
+				<posy>20</posy>
 				<width>50</width>
-				<height>500</height>
+				<height>570</height>
 				<texturesliderbackground >square80.png</texturesliderbackground>
 				<texturesliderbar colordiffuse="grey">white.png</texturesliderbar>
 				<texturesliderbarfocus colordiffuse="blue">white.png</texturesliderbarfocus>
@@ -1447,7 +1447,7 @@
 			<control type="image">
 				<description>PageUp</description>
 				<posx>0</posx>
-				<posy>-15</posy>
+				<posy>-40</posy>
 				<width>50</width>
 				<height>60</height>
 				<texture>square80.png</texture>
@@ -1455,7 +1455,7 @@
 			<control type="button">
 				<description>PageUp</description>
 				<posx>5</posx>
-				<posy>-10</posy>
+				<posy>-35</posy>
 				<width>40</width>
 				<height>50</height>
 				<texturenofocus colordiffuse="grey">arrow_up.png</texturenofocus>
@@ -1465,7 +1465,7 @@
 			<control type="image">
 				<description>PageUp</description>
 				<posx>0</posx>
-				<posy>625</posy>
+				<posy>585</posy>
 				<width>50</width>
 				<height>60</height>
 				<texture>square80.png</texture>
@@ -1473,7 +1473,7 @@
 			<control type="button">
 				<description>PageDown</description>
 				<posx>5</posx>
-				<posy>630</posy>
+				<posy>590</posy>
 				<width>40</width>
 				<height>50</height>
 				<label></label>
@@ -1519,7 +1519,7 @@
 		</control>
 		<control type="panel" id="9002">
 			<include>VisibleFadeEffect</include>
-			<include>BottomMenuLayout</include>
+			<include>BottomMenuLayoutNovo</include>
 			<content>
 				<item>
 					<label>31200</label>
@@ -1563,6 +1563,60 @@
 			</content>
 		</control>
 	</include>
+	<include name="BottomMenuVideoOsd">
+		<control type="button" id="2">
+			<description>View button needed for panel below to work</description>
+			<visible>false</visible>
+		</control>
+		<control type="button" id="19">
+			<description>Filter button needed for panel below to work</description>
+			<visible>false</visible>
+		</control>
+		<control type="button" id="31">
+			<description>Filter button needed for panel below to work</description>
+			<visible>false</visible>
+		</control>
+		<control type="panel" id="9002">
+			<include>VisibleFadeEffect</include>
+			<include>BottomMenuLayoutNovoVideoOsd</include>
+			<content>
+				<item>
+					<label>31200</label>
+					<onclick condition="Window.IsVisible(MusicOSD) | Window.IsVisible(VideoOSD)">Dialog.Close(all,true)</onclick>
+					<onclick>ParentDir</onclick>
+					<icon>icon_button_back.png</icon>
+				</item>
+				<item>
+					<label>587</label>
+					<onclick condition="!Container.CanFilterAdvanced">SendClick(19)</onclick>
+					<onclick condition="Container.CanFilterAdvanced">Filter</onclick>
+					<icon>icon_button_filter.png</icon>
+					<visible>!Container.Filtered + ![Window.IsVisible(TVChannels) | Window.IsVisible(RadioChannels) | Window.IsVisible(TVRecordings) | Window.IsVisible(RadioRecordings) | Window.IsVisible(TVTimers) | Window.IsVisible(RadioTimers) | Window.IsVisible(TVTimerRules) | Window.IsVisible(RadioTimerRules) | Window.IsVisible(TVSearch) | Window.IsVisible(RadioSearch) | Window.IsVisible(MusicOSD) | Window.IsVisible(VideoOSD) | Window.IsVisible(MusicPlaylist) | Window.IsVisible(VideoPlaylist) | Window.IsVisible(MusicPlaylistEditor)]</visible>
+				</item>
+				<item>
+					<label>587</label>
+					<onclick condition="!Container.CanFilterAdvanced">SendClick(19)</onclick>
+					<onclick condition="Container.CanFilterAdvanced">Filter</onclick>
+					<icon>icon_button_filtered.png</icon>
+					<visible>Container.Filtered + ![Window.IsVisible(TVChannels) | Window.IsVisible(RadioChannels) | Window.IsVisible(TVRecordings) | Window.IsVisible(RadioRecordings) | Window.IsVisible(TVTimers) | Window.IsVisible(RadioTimers) | Window.IsVisible(TVTimerRules) | Window.IsVisible(RadioTimerRules) | Window.IsVisible(TVSearch) | Window.IsVisible(RadioSearch) | Window.IsVisible(MusicOSD) | Window.IsVisible(VideoOSD) | Window.IsVisible(MusicPlaylist) | Window.IsVisible(VideoPlaylist) | Window.IsVisible(MusicPlaylistEditor)]</visible>
+				</item>
+				<item>
+					<label>587</label>
+					<onclick>SendClick(31)</onclick>
+					<icon>icon_button_filter.png</icon>
+					<visible>Window.IsVisible(TVChannels) | Window.IsVisible(RadioChannels)</visible>
+				</item>
+				<item>
+					<label>31202</label>
+					<onclick condition="![Window.IsVisible(TVGuide) | Window.IsVisible(RadioGuide)]">Container.NextViewMode</onclick>
+					<onclick condition="Window.IsVisible(TVGuide) | Window.IsVisible(RadioGuide)">SendClick(2)</onclick>
+					<icon>icon_button_view.png</icon>
+					<visible>![Window.IsVisible(TVChannels) | Window.IsVisible(RadioChannels) | Window.IsVisible(TVRecordings) | Window.IsVisible(RadioRecordings) | Window.IsVisible(TVTimers) | Window.IsVisible(RadioTimers) | Window.IsVisible(TVTimerRules) | Window.IsVisible(RadioTimerRules) | Window.IsVisible(TVSearch) | Window.IsVisible(RadioSearch) | Window.IsVisible(MusicOSD) | Window.IsVisible(VideoOSD) | Window.IsVisible(MusicPlaylist) | Window.IsVisible(VideoPlaylist) | Window.IsVisible(MusicPlaylistEditor)]</visible>
+				</item>
+				
+			</content>
+		</control>
+	</include>
 	<include name="BottomMenuLayout">
 		<animation effect="fade" start="100" end="0" time="300" condition="Window.Next(Home)">WindowClose</animation>
 		<animation effect="fade" end="100" start="0" time="300" condition="Window.Previous(Home)">WindowOpen</animation>
@@ -1572,6 +1626,119 @@
 		<animation effect="slide" start="0,0" end="480,0" time="0" condition="String.IsEqual(Container(9002).NumItems,2)">conditional</animation>
 		<animation effect="slide" start="0,0" end="600,0" time="0" condition="String.IsEqual(Container(9002).NumItems,1)">conditional</animation>
 		<posx>800r</posx>
+		<posy>160r</posy>
+		<width>800</width>
+		<height>160</height>
+		<onleft>9040</onleft>
+		<onright>9002</onright>
+		<onup>9001</onup>
+		<ondown>20</ondown>
+		<scrolltime>300</scrolltime>
+		<orientation>Horizontal</orientation>
+		<itemlayout height="160" width="160">
+			<control type="image">
+				<posx>0</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>135</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>5</posy>
+				<width>159</width>
+				<height>160</height>
+				<bordersize>12</bordersize>
+				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
+				<aspectratio>keep</aspectratio>
+			</control>
+		</itemlayout>
+		<focusedlayout height="160" width="160">
+			<control type="image">
+				<posx>2</posx>
+				<posy>0</posy>
+				<width>160</width>
+				<height>160</height>
+				<texture>list_focus.png</texture>
+			</control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>5</posy>
+				<width>159</width>
+				<height>160</height>
+				<bordersize>12</bordersize>
+				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
+				<aspectratio>keep</aspectratio>
+			</control>
+		</focusedlayout>
+	</include>	
+	<include name="BottomMenuLayoutNovo">
+		<animation effect="fade" start="100" end="0" time="300" condition="Window.Next(Home)">WindowClose</animation>
+		<animation effect="fade" end="100" start="0" time="300" condition="Window.Previous(Home)">WindowOpen</animation>
+		<animation effect="slide" start="0,0" end="120,0" time="0" condition="String.IsEqual(Container(9002).NumItems,5)">conditional</animation>
+		<animation effect="slide" start="0,0" end="240,0" time="0" condition="String.IsEqual(Container(9002).NumItems,4)">conditional</animation>
+		<animation effect="slide" start="0,0" end="360,0" time="0" condition="String.IsEqual(Container(9002).NumItems,3)">conditional</animation>
+		<animation effect="slide" start="0,0" end="480,0" time="0" condition="String.IsEqual(Container(9002).NumItems,2)">conditional</animation>
+		<animation effect="slide" start="0,0" end="600,0" time="0" condition="String.IsEqual(Container(9002).NumItems,1)">conditional</animation>
+		<posx>880r</posx>
+		<posy>160r</posy>
+		<width>800</width>
+		<height>160</height>
+		<onleft>9040</onleft>
+		<onright>9002</onright>
+		<onup>9001</onup>
+		<ondown>20</ondown>
+		<scrolltime>300</scrolltime>
+		<orientation>Horizontal</orientation>
+		<itemlayout height="160" width="160">
+			<control type="image">
+				<posx>0</posx>
+				<posy>15</posy>
+				<width>1</width>
+				<height>135</height>
+				<texture >linie_albastra_v.png</texture>
+				<colordiffuse></colordiffuse>
+			</control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>5</posy>
+				<width>159</width>
+				<height>160</height>
+				<bordersize>12</bordersize>
+				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
+				<aspectratio>keep</aspectratio>
+			</control>
+		</itemlayout>
+		<focusedlayout height="160" width="160">
+			<control type="image">
+				<posx>2</posx>
+				<posy>0</posy>
+				<width>160</width>
+				<height>160</height>
+				<texture>list_focus.png</texture>
+			</control>
+			<control type="image">
+				<posx>0</posx>
+				<posy>5</posy>
+				<width>159</width>
+				<height>160</height>
+				<bordersize>12</bordersize>
+				<texture colordiffuse="icons">$INFO[ListItem.Icon]</texture>
+				<aspectratio>keep</aspectratio>
+			</control>
+		</focusedlayout>
+	</include>	
+
+	<include name="BottomMenuLayoutNovoVideoOsd">
+		<animation effect="fade" start="100" end="0" time="300" condition="Window.Next(Home)">WindowClose</animation>
+		<animation effect="fade" end="100" start="0" time="300" condition="Window.Previous(Home)">WindowOpen</animation>
+		<animation effect="slide" start="0,0" end="120,0" time="0" condition="String.IsEqual(Container(9002).NumItems,5)">conditional</animation>
+		<animation effect="slide" start="0,0" end="240,0" time="0" condition="String.IsEqual(Container(9002).NumItems,4)">conditional</animation>
+		<animation effect="slide" start="0,0" end="360,0" time="0" condition="String.IsEqual(Container(9002).NumItems,3)">conditional</animation>
+		<animation effect="slide" start="0,0" end="480,0" time="0" condition="String.IsEqual(Container(9002).NumItems,2)">conditional</animation>
+		<animation effect="slide" start="0,0" end="600,0" time="0" condition="String.IsEqual(Container(9002).NumItems,1)">conditional</animation>
+		<posx>770r</posx>
 		<posy>160r</posy>
 		<width>800</width>
 		<height>160</height>
@@ -1827,41 +1994,41 @@
 			<animation effect="slide" end="0,0" start="-100,0" time="400" tween="quadratic" easing="out">WindowOpen</animation>
 			<control type="image">
 				<description>Menu Panel</description>
-				<posx>-960</posx>
+				<posx>-1080</posx>
 				<posy>0</posy>
-				<width>960</width>
+				<width>970</width>
 				<height>120</height>
 				<texture>header.png</texture>
 				<animation effect="rotate" end="90" time="0" center="0,0" condition="true">Conditional</animation>
 			</control>
 			<control type="list" id="9000">
 				<posx>0</posx>
-				<posy>80</posy>
-				<width>100</width>
+				<posy>90</posy>
+				<width>130</width>
 				<height>800</height>
 				<itemlayout width="100" height="100">
 					<control type="image">
 						<posx>10</posx>
 						<posy>10</posy>
-						<width>80</width>
-						<height>80</height>
+						<width>130</width>
+						<height>130</height>
 						<texture>$INFO[ListItem.Icon]</texture>
 					</control>
 				</itemlayout>
 				<focusedlayout width="100" height="100">
 					<control type="image">
-						<posx>0</posx>
-						<posy>0</posy>
-						<width>100</width>
-						<height>100</height>
+						<posx>10</posx>
+						<posy>10</posy>
+						<width>120</width>
+						<height>120</height>
 						<texture>list_focus.png</texture>
 						<visible>Control.HasFocus(9000)</visible>
 					</control>
 					<control type="image">
 						<posx>10</posx>
 						<posy>10</posy>
-						<width>80</width>
-						<height>80</height>
+						<width>130</width>
+						<height>130</height>
 						<texture>$INFO[ListItem.Icon]</texture>
 					</control>
 				</focusedlayout>

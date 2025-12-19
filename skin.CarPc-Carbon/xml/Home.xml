@@ -25,7 +25,7 @@
 			</control>
 		</control>
 
-		<!--Meniu by me-->
+		<!--Menu by me-->
 			
 		<include>Video</include>
 		<include>Navigation</include>
@@ -172,14 +172,33 @@
 		</include>
 		
 		<!--##################################################################################-->
-		<!--
+
+		<control type="togglebutton" id="132">
+			<posx>1400</posx>
+			<posy>8</posy>
+			<width>150</width>
+			<height>150</height>
+			<label>Telas</label>
+			<altlabel>Telas</altlabel>
+			<font>-</font>
+			<texturefocus colordiffuse="blue">defaulttvshows.png</texturefocus>
+			<texturenofocus colordiffuse="icons">defaulttvshows.png</texturenofocus>
+			<usealttexture></usealttexture>
+			<alttexturefocus colordiffuse="blue">defaulttvshows.png</alttexturefocus>
+			<alttexturenofocus colordiffuse="icons">defaulttvshows.png</alttexturenofocus>
+			<onclick condition="!Skin.HasSetting(tela_secundaria)">Skin.SetString(comando_serial, tela_on)</onclick>
+			<onclick condition="Skin.HasSetting(tela_secundaria)">Skin.SetString(comando_serial, tela_off)</onclick>
+			<onclick>Skin.ToggleSetting(tela_secundaria)</onclick>
+			<selected>Skin.HasSetting(tela_secundaria)</selected>
+		</control>
+
 		<control type="togglebutton" id="131">
 			<posx>1550</posx>
-			<posy>30</posy>
-			<width>90</width>
-			<height>90</height>
-			<label>Day</label>
-			<altlabel>Night</altlabel>
+			<posy>8</posy>
+			<width>150</width>
+			<height>150</height>
+			<label>Dia</label>
+			<altlabel>Noite</altlabel>
 			<font>-</font>
 			<texturefocus colordiffuse="blue">defaultaddonweather.png</texturefocus>
 			<texturenofocus colordiffuse="icons">defaultaddonweather.png</texturenofocus>
@@ -189,8 +208,8 @@
 			<onclick>Skin.ToggleSetting(HideDayNight)</onclick>
 			<selected>Skin.HasSetting(HideDayNight)</selected>
 		</control>
-		-->
-	<!--<include>DayNight</include>-->
+		
+		<include>DayNight</include>
 	
 		<control type="group" id="9030">
 				<include>VolumeRight</include>
