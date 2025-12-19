@@ -18,7 +18,7 @@
             <platform>all</platform>
         </extension>
     </addon>
-    <addon id="skin.CarPc-Carbon" name="CarPc-Carbon" version="2.0.28" provider-name="idorel77">
+    <addon id="skin.CarPc-Carbon" name="CarPc-Carbon" version="2.0.29" provider-name="idorel77">
         <requires>
             <import addon="xbmc.gui" version="5.17.0"/>
             <import addon="xbmc.python" version="3.0.0"/>
