@@ -2845,7 +2845,7 @@
                 <onright>Control.SetFocus(4151)</onright>
                 <posx>10</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_l.png</texturenofocus>
@@ -2854,14 +2854,14 @@
 			</control>
 			<control type="image">
 				<description>Appearance</description>
-				<posx>50</posx>
+				<posx>30</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
 				<texture colordiffuse="icons">icon_settings_player.png</texture>
 			</control>
 			<control type="label">
-				<posx>280</posx>
+				<posx>100</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>500</width>
@@ -2884,7 +2884,7 @@
                 <onright>Control.SetFocus(4161)</onright>
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_l.png</texturenofocus>
@@ -2892,14 +2892,14 @@
 				<onclick>ActivateWindow(MediaSettings)</onclick>
 			</control>
 			<control type="image">
-				<posx>50</posx>
+				<posx>30</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
 				<texture colordiffuse="icons">icon_settings_media.png</texture>
 			</control>
 			<control type="label">
-				<posx>370</posx>
+				<posx>180</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -2923,7 +2923,7 @@
                 <onright>Control.SetFocus(4171)</onright>
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_l.png</texturenofocus>
@@ -2932,14 +2932,14 @@
 			</control>
 			<control type="image">
 				<description>Weather</description>
-				<posx>50</posx>
+				<posx>30</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
 				<texture colordiffuse="icons">icon_settings_livetv.png</texture>
 			</control>
 			<control type="label">
-				<posx>250</posx>
+				<posx>100</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>500</width>
@@ -2963,7 +2963,7 @@
                 <onright>Control.SetFocus(4181)</onright>
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_l.png</texturenofocus>
@@ -2972,7 +2972,7 @@
 			</control>
 			<control type="image">
 				<description>Services</description>
-				<posx>50</posx>
+				<posx>30</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
@@ -2980,7 +2980,7 @@
 			</control>
 			<control type="label">
 				<description>Services</description>
-				<posx>250</posx>
+				<posx>100</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>500</width>
@@ -3004,7 +3004,7 @@
                 <onright>Control.SetFocus(4191)</onright>
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_l.png</texturenofocus>
@@ -3013,7 +3013,7 @@
 			</control>
 			<control type="image">
 				<description>Skin Settings</description>
-				<posx>50</posx>
+				<posx>30</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
@@ -3021,7 +3021,7 @@
 			</control>
 			<control type="label">
 				<description>Services</description>
-				<posx>250</posx>
+				<posx>100</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>500</width>
@@ -3033,9 +3033,100 @@
 				<textcolor>white</textcolor>		
 			</control>
 		</control>
+
+
+
+
+		<control type="group" id="4100">
+			<include>Window_OpenClose_Animation_Zoom</include>
+			<posx>480</posx>
+			<posy>50</posy>
+			<include>VisibleFadeEffect</include>
+			<control type="button" id="4101">
+                <onup>Control.SetFocus(4311)</onup>
+                <ondown>Control.SetFocus(4111)</ondown>
+                <onleft></onleft>
+                <onright>Control.SetFocus(4151)</onright>
+                <posx>10</posx>
+				<posy>0</posy>
+				<width>470</width>
+				<height>110</height>
+				<font>-</font>
+				<texturenofocus >settings_l.png</texturenofocus>
+				<texturefocus>settings_l_p.png</texturefocus>
+				<onclick>ActivateWindow(PlayerSettings)</onclick>
+			</control>
+			<control type="image">
+				<description>Appearance</description>
+				<posx>50</posx>
+				<posy>10</posy>
+				<width>120</width>
+				<height>120</height>
+				<texture colordiffuse="icons">icon_settings_player.png</texture>
+			</control>
+			<control type="label">
+				<posx>100</posx>
+				<posy>0</posy>
+				<height>100</height>
+				<width>480</width>
+				<label>14200</label>
+				<label2>31408</label2>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font35_title</font>
+				<textcolor>white</textcolor>		
+			</control>
+		</control>
+
+
+
+		<control type="group" id="4100">
+			<include>Window_OpenClose_Animation_Zoom</include>
+			<posx>480</posx>
+			<posy>170</posy>
+			<include>VisibleFadeEffect</include>
+			<control type="button" id="4101">
+                <onup>Control.SetFocus(4311)</onup>
+                <ondown>Control.SetFocus(4111)</ondown>
+                <onleft></onleft>
+                <onright>Control.SetFocus(4151)</onright>
+                <posx>10</posx>
+				<posy>0</posy>
+				<width>470</width>
+				<height>110</height>
+				<font>-</font>
+				<texturenofocus >settings_l.png</texturenofocus>
+				<texturefocus>settings_l_p.png</texturefocus>
+				<onclick>ActivateWindow(PlayerSettings)</onclick>
+			</control>
+			<control type="image">
+				<description>Appearance</description>
+				<posx>50</posx>
+				<posy>10</posy>
+				<width>120</width>
+				<height>120</height>
+				<texture colordiffuse="icons">icon_settings_player.png</texture>
+			</control>
+			<control type="label">
+				<posx>100</posx>
+				<posy>0</posy>
+				<height>100</height>
+				<width>480</width>
+				<label>14200</label>
+				<label2>31408</label2>
+				<align>center</align>
+				<aligny>center</aligny>
+				<font>font35_title</font>
+				<textcolor>white</textcolor>		
+			</control>
+		</control>
+
+		
+
+
         <control type="group" id="4150">
 		<include>Window_OpenClose_Animation_Zoom</include>
-			<posx>760r</posx>
+			<posx>530r</posx>
 			<posy>50</posy>
 			<include>VisibleFadeEffect</include>
 			<control type="button" id="4151">
@@ -3045,7 +3136,7 @@
                 <onleft>Control.SetFocus(4101)</onleft> 
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_r.png</texturenofocus>
@@ -3054,7 +3145,7 @@
 			</control>
 			<control type="image">
 				<description>Video</description>
-				<posx>540</posx>
+				<posx>330</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
@@ -3062,7 +3153,7 @@
 			</control>
 			<control type="label">
 				<description>Video</description>
-				<posx>100</posx>
+				<posx>50</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -3076,7 +3167,7 @@
 		</control>		
 		<control type="group" id="4160">
 		<include>Window_OpenClose_Animation_Zoom</include>
-			<posx>760r</posx>
+			<posx>530r</posx>
 			<posy>170</posy>
 			<include>VisibleFadeEffect</include>
 			<control type="button" id="4161">
@@ -3085,7 +3176,7 @@
                 <onleft>Control.SetFocus(4111)</onleft> 
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_r.png</texturenofocus>
@@ -3093,14 +3184,14 @@
 				<onclick>ActivateWindow(AddonBrowser)</onclick>
 			</control>
 			<control type="image">
-				<posx>540</posx>
+				<posx>330</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
 				<texture colordiffuse="icons">icon_settings_addons.png</texture>
 			</control>
 			<control type="label">
-				<posx>100</posx>
+				<posx>50</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -3114,7 +3205,7 @@
 		</control>	
 		<control type="group" id="4170">
 		<include>Window_OpenClose_Animation_Zoom</include>
-			<posx>760r</posx>
+			<posx>530r</posx>
 			<posy>290</posy>
 			<include>VisibleFadeEffect</include>
 			<control type="button" id="4171">
@@ -3123,7 +3214,7 @@
                 <onleft>Control.SetFocus(4121)</onleft> 
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_r.png</texturenofocus>
@@ -3131,14 +3222,14 @@
 				<onclick>ActivateWindow(Profiles)</onclick>
 			</control>
 			<control type="image">
-				<posx>540</posx>
+				<posx>330</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
 				<texture colordiffuse="icons">icon_settings_profiles.png</texture>
 			</control>
 			<control type="label">
-				<posx>100</posx>
+				<posx>50</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -3152,7 +3243,7 @@
 		</control>		
 		<control type="group" id="4180">
 		<include>Window_OpenClose_Animation_Zoom</include>
-			<posx>760r</posx>
+			<posx>530r</posx>
 			<posy>410</posy>
 			<include>VisibleFadeEffect</include>
 			<control type="button" id="4181">
@@ -3162,7 +3253,7 @@
                 <onleft>Control.SetFocus(4131)</onleft> 
 				<posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_r.png</texturenofocus>
@@ -3171,7 +3262,7 @@
 			</control>
 			<control type="image">
 				<description>System</description>
-				<posx>540</posx>
+				<posx>330</posx>
 				<posy>10</posy>
 				<width>120</width>
 				<height>120</height>
@@ -3179,7 +3270,7 @@
 			</control>
 			<control type="label">
 				<description>System</description>
-				<posx>100</posx>
+				<posx>50</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -3193,7 +3284,7 @@
 		</control>
 		<control type="group" id="4190">
 		<include>Window_OpenClose_Animation_Zoom</include>
-			<posx>760r</posx>
+			<posx>530r</posx>
 			<posy>530</posy>
 			<include>VisibleFadeEffect</include>
 			<control type="button" id="4191">
@@ -3202,7 +3293,7 @@
                 <onleft>Control.SetFocus(4141)</onleft> 
                 <posx>0</posx>
 				<posy>0</posy>
-				<width>700</width>
+				<width>470</width>
 				<height>110</height>
 				<font>-</font>
 				<texturenofocus >settings_r.png</texturenofocus>
@@ -3210,14 +3301,14 @@
 				<onclick>ActivateWindow(SkinSettings)</onclick>
 			</control>
 			<control type="image">
-				<posx>560</posx>
+				<posx>330</posx>
 				<posy>10</posy>
 				<width>80</width>
 				<height>80</height>
 				<texture colordiffuse="icons">defaultaddonlookandfeel.png</texture>
 			</control>
 			<control type="label">
-				<posx>100</posx>
+				<posx>50</posx>
 				<posy>0</posy>
 				<height>100</height>
 				<width>300</width>
@@ -3229,7 +3320,7 @@
 			</control>
 		</control>
 		</control>
-		</include>
+	</include>
 
 	<include name="SkinSettingsContent">
 		<control type="grouplist" id="100">
