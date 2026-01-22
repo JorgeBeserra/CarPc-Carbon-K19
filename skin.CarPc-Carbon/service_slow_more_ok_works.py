@@ -7,10 +7,6 @@ import xbmcgui
 import subprocess
 import time
 import threading
-
-serial_conn = None
-serial_lock = threading.Lock()
-
 from xbmc import Monitor, Player
 
 from lib.ReverseGearManager import ReverseGearManager
@@ -29,6 +25,9 @@ try:
 except ImportError:
     xbmc.log("Falha ao importar PySerial", xbmc.LOGERROR)
     sys.exit()
+
+import time
+import threading
 
 
 # Configuração do Addon
@@ -107,11 +106,10 @@ def parse_can_message(raw_data):
 
     try:
         xbmc.log(f"Debug CAN: {str(raw_data)}", xbmc.LOGINFO)
-        
-        # Bugs
-        #if raw_data == "ShutdownForInactivity":
-        #    xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
-        #    mostrar_dialogo_desligamento()
+
+        if raw_data == "ShutdownForInactivity":
+            xbmc.log("Kodi: Desligando o sistema após inatividade", xbmc.LOGINFO)
+            mostrar_dialogo_desligamento()
 
         # Verifica se é uma mensagem de ADC
         if "ADC Click:" in raw_data:
@@ -127,15 +125,17 @@ def parse_can_message(raw_data):
                     xbmc.executebuiltin("PlayerControl(Next)")
                     xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
                 elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
-                    door_status["volume_action"] = "Pause"
-                    xbmc.executebuiltin("PlayerControl(Play)")
-                    xbmc.log(f"ADC {adc_value}:  Música Pausa (Pausa)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3930:  # Exemplo: Volume -
+                    door_status["volume_action"] = "Mute"
+                    xbmc.executebuiltin("Mute")
+                    xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
+                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume +"
+                    xbmc.log(f"ADC {adc_value}: Volume aumentar", xbmc.LOGINFO)
                     adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4080:  # Exemplo: Volume +
+                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume -"
+                    xbmc.log(f"ADC {adc_value}: Volume baixar", xbmc.LOGINFO)
                     adjust_volume("down")
                     xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
                 elif 2300 <= adc_value <= 2450:  # Estado neutro
@@ -157,14 +157,14 @@ def parse_can_message(raw_data):
                     xbmc.executebuiltin("PlayerControl(forward)")
                     xbmc.log(f"ADC {adc_value}: Próxima música", xbmc.LOGINFO)
                 elif 4090 <= adc_value <= 4095:  # Mute (inclui margem para estabilidade)
-                    door_status["volume_action"] = "Pause"
-                    xbmc.executebuiltin("PlayerControl(Play)")
-                    xbmc.log(f"ADC {adc_value}: Música Pausa (Pausa)", xbmc.LOGINFO)
-                elif 3880 <= adc_value <= 3930:  # Exemplo: Volume +
+                    door_status["volume_action"] = "Mute"
+                    xbmc.executebuiltin("Mute")
+                    xbmc.log(f"ADC {adc_value}: Volume silenciado (Mute)", xbmc.LOGINFO)
+                elif 3880 <= adc_value <= 3900:  # Exemplo: Volume +
                     door_status["volume_action"] = "Volume +"
                     adjust_volume("up")
                     xbmc.log(f"ADC {adc_value}: Volume aumentado", xbmc.LOGINFO)
-                elif 4040 <= adc_value <= 4080:  # Exemplo: Volume -
+                elif 4040 <= adc_value <= 4060:  # Exemplo: Volume -
                     door_status["volume_action"] = "Volume -"
                     adjust_volume("down")
                     xbmc.log(f"ADC {adc_value}: Volume diminuído", xbmc.LOGINFO)
@@ -275,53 +275,27 @@ class ReverseVideoPlayer(xbmc.Player):
         if self.previous_media:
             xbmc.log(f"Restaurando mídia: {self.previous_media} na posição {self.previous_position}", xbmc.LOGINFO)
             self.play(self.previous_media)  # Retoma a mídia anterior
-            time.sleep(0.5)  # Aguarda o Kodi iniciar a reprodução
-
-            if self.isPlaying():
-                self.seekTime(self.previous_position)
-            else:
-                xbmc.log("Erro: Kodi não iniciou a reprodução.", xbmc.LOGERROR)
-            
+            self.seekTime(self.previous_position)  # Volta para a posição salva
             self.previous_media = None  # Limpa o estado após restaurar
 
     def start_ffmpeg_stream(self):
         xbmc.log("Iniciando start_ffmpeg_stream", xbmc.LOGINFO)
-
-        if os.path.exists(self.pipe_path):
-            os.remove(self.pipe_path)
-            xbmc.log(f"Pipe antigo removido: {self.pipe_path}", xbmc.LOGINFO)
-
         # Cria o pipe se não existir
         if not os.path.exists(self.pipe_path):
             os.mkfifo(self.pipe_path)
             xbmc.log(f"Pipe criado em {self.pipe_path}", xbmc.LOGINFO)
 
         # Comando FFmpeg ajustado para o LibreELEC
-        #    ffmpeg_cmd = [
-        #        "ffmpeg",
-        #        "-y",
-        #        "-f", "v4l2",
-        #        "-thread_queue_size", "64",
-        #        "-input_format", "yuyv422",
-        #        "-video_size", "720x480",
-        #        "-i", "/dev/video0",
-        #        "-c:v", "mpeg2video",
-        #        "-b:v", "5000k",
-        #        "-f", "mpegts",
-        #        self.pipe_path
-        #    ]
-
         ffmpeg_cmd = [
             "ffmpeg",
             "-y",
             "-f", "v4l2",
             "-input_format", "mjpeg",
-            "-video_size", "720x480",
             "-i", "/dev/video0",
-            "-q:v", "2",
+            "-c:v", "mpeg2video",
             "-b:v", "5000k",
             "-f", "mpegts",
-            "udp://127.0.0.1:1234"
+            self.pipe_path
         ]
 
         # Executa o FFmpeg em um subprocesso
@@ -330,7 +304,7 @@ class ReverseVideoPlayer(xbmc.Player):
             xbmc.log("FFmpeg iniciado para stream em " + self.pipe_path, xbmc.LOGINFO)
 
         # Verifica se o FFmpeg está rodando
-        time.sleep(0.5)
+        time.sleep(5)
         if self.ffmpeg_process.poll() is None:
             xbmc.log("FFmpeg está ativo", xbmc.LOGINFO)
         else:
@@ -349,7 +323,7 @@ class ReverseVideoPlayer(xbmc.Player):
             # Inicia o FFmpeg em uma thread separada
             threading.Thread(target=self.start_ffmpeg_stream, daemon=True).start()
             # Aguarda um momento para garantir que o FFmpeg comece a escrever no pipe
-            time.sleep(1)
+            time.sleep(5)
             if os.path.exists(self.pipe_path):
                 pipe_size = os.path.getsize(self.pipe_path) if os.path.getsize(self.pipe_path) > 0 else 0
                 xbmc.log(f"Pipe existe, tamanho: {pipe_size} bytes", xbmc.LOGINFO)
@@ -361,10 +335,9 @@ class ReverseVideoPlayer(xbmc.Player):
                 xbmc.log("Pipe não foi criado", xbmc.LOGERROR)
 
             # Reproduz o stream do pipe
-            #play_path = "file:///" + self.pipe_path
-            #xbmc.log(f"Tentando reproduzir: {play_path}", xbmc.LOGINFO)
-            #self.play(play_path)
-            self.play("udp://127.0.0.1:1234")
+            play_path = "file:///" + self.pipe_path
+            xbmc.log(f"Tentando reproduzir: {play_path}", xbmc.LOGINFO)
+            self.play(play_path)
             self.playing = True
             xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
 
@@ -378,24 +351,24 @@ class ReverseVideoPlayer(xbmc.Player):
                 self.ffmpeg_process = None
             self.playing = False
             xbmc.executebuiltin("Dialog.Close(all,true)")
-            #if os.path.exists(self.pipe_path):
-            #    os.remove(self.pipe_path)
+            if os.path.exists(self.pipe_path):
+                os.remove(self.pipe_path)
 
             self.restore_previous_playback()
 
 def serial_worker():
     """Thread para comunicação serial com otimizações"""
-    global serial_conn
     config = get_serial_config()
+    ser = None
 
     while not monitor.abortRequested():
         try:
-            if not serial_conn:
-                serial_conn = serial.Serial(**config)
+            if not ser:
+                ser = serial.Serial(**config)
                 xbmc.log(f"Conexão serial iniciada em {config['port']}", xbmc.LOGINFO)
 
-            if serial_conn.in_waiting > 0:
-                raw = serial_conn.readline().decode('utf-8', errors='ignore').strip()
+            if ser.in_waiting > 0:
+                raw = ser.readline().decode('utf-8', errors='ignore').strip()
                 if raw:
                     parse_can_message(raw)
 
@@ -403,26 +376,19 @@ def serial_worker():
 
         except serial.SerialException as e:
             xbmc.log(f"Erro serial: {str(e)}", xbmc.LOGERROR)
-            if serial_conn:
-                serial_conn.close()
-                serial_conn = None
+            if ser:
+                ser.close()
+                ser = None
             monitor.waitForAbort(5)
 
         except Exception as e:
             xbmc.log(f"Erro geral: {str(e)}", xbmc.LOGERROR)
             monitor.waitForAbort(1)
 
-    if serial_conn and serial_conn.is_open:
-        serial_conn.close()
+    if ser and ser.is_open:
+        ser.close()
 
-def enviar_serial(cmd):
-    global serial_conn
-    if serial_conn and serial_conn.is_open:
-        with serial_lock:
-            serial_conn.write((cmd + "\n").encode())
-            xbmc.log(f"Enviado para serial: {cmd}", xbmc.LOGINFO)
-    else:
-        xbmc.log("Serial não conectada para envio", xbmc.LOGERROR)
+
 
 def ui_worker():
     """Atualização otimizada da interface"""
@@ -481,4 +447,4 @@ if __name__ == "__main__":
     while not monitor.abortRequested():
         monitor.waitForAbort(1)
 
-    xbmc.log("Serviço encerrado", xbmc.LOGINFO)
+    xbmc.log("CarPc-Carbon Encerrado", xbmc.LOGINFO)
