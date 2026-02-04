@@ -343,6 +343,7 @@ class ReverseVideoPlayer(xbmc.Player):
             candidates.extend([
                 "/usr/bin/ffmpeg",
                 "/usr/local/bin/ffmpeg",
+                "/storage/downloads/ffmpeg",
             ])
 
         for path in candidates:
