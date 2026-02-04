@@ -2,6 +2,13 @@
 <window>
 	<defaultcontrol>1000</defaultcontrol>
 	<include>dialogeffect</include>
+	<!-- Redireciona pastas para o menu custom -->
+	<onload condition="ListItem.IsFolder">ClearProperty(CtxPath,Home)</onload>
+	<onload condition="ListItem.IsFolder">SetProperty(CtxPath,$INFO[ListItem.Path],Home)</onload>
+	<onload condition="ListItem.IsFolder + String.IsEmpty(Window(Home).Property(CtxPath))">SetProperty(CtxPath,$INFO[ListItem.FolderPath],Home)</onload>
+	<onload condition="ListItem.IsFolder">AlarmClock(CustomMenu,ActivateWindow(1150),00:00:00,silent)</onload>
+	<onload condition="ListItem.IsFolder">Dialog.Close(contextmenu)</onload>
+	<onunload>ClearProperty(ContextMenuFull)</onunload>
 	<coordinates>
 		<posx>0</posx>
 		<posy>-30</posy>
